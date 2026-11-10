@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        Hospital Management System
+        {% endblock %}
+    </title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f9fc;
+            color: #1f2937;
+
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            width: 100%;
+            height: 75px;
+
+            background: #0f3d5e;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        /* Logo */
+
+        .logo {
+            text-decoration: none;
+            color: white;
+
+            font-size: 24px;
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #35c6b0;
+        }
+
+
+        /* Navigation */
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+
+            gap: 35px;
+
+            list-style: none;
+        }
+
+
+        .nav-links li {
+            display: flex;
+            align-items: center;
+        }
+
+
+        .nav-links a {
+            position: relative;
+
+            text-decoration: none;
+            color: #ffffff;
+
+            font-size: 15px;
+            font-weight: 500;
+
+            padding: 8px 0;
+
+            transition: 0.3s ease;
+        }
+
+
+        .nav-links a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: 0;
+
+            width: 0;
+            height: 2px;
+
+            background-color: #35c6b0;
+
+            transition: 0.3s ease;
+        }
+
+
+        .nav-links a:hover {
+            color: #35c6b0;
+        }
+
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+
+        /* Book / Appointment Button */
+
+        .appointment-btn {
+            background-color: #35c6b0;
+
+            color: white !important;
+
+            padding: 11px 20px !important;
+
+            border-radius: 6px;
+
+            font-weight: 600 !important;
+
+            transition: 0.3s ease;
+        }
+
+
+        .appointment-btn::after {
+            display: none;
+        }
+
+
+        .appointment-btn:hover {
+            background-color: #28a996;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        main {
+            width: 100%;
+
+            flex: 1;
+
+            min-height: 500px;
+        }
+
+
+        /* Content wrapper if needed */
+
+        .page-container {
+            width: 86%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 50px 0;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            width: 100%;
+
+            background-color: #0b2f49;
+
+            color: white;
+
+            margin-top: auto;
+        }
+
+
+        /* Footer Main Area */
+
+        .footer-container {
+            width: 86%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 55px 0 45px;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr
+                1fr
+                1fr
+                1.4fr;
+
+            gap: 55px;
+        }
+
+
+        /* =====================================================
+           FOOTER ABOUT
+        ===================================================== */
+
+        .footer-about h2 {
+            font-size: 23px;
+
+            color: #35c6b0;
+
+            margin-bottom: 18px;
+        }
+
+
+        .footer-about p {
+            color: #c9d5df;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            max-width: 350px;
+        }
+
+
+        /* =====================================================
+           FOOTER HEADINGS
+        ===================================================== */
+
+        .footer-section h3 {
+            color: #ffffff;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            margin-bottom: 20px;
+
+            position: relative;
+
+            padding-bottom: 10px;
+        }
+
+
+        .footer-section h3::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: 0;
+
+            width: 35px;
+            height: 2px;
+
+            background-color: #35c6b0;
+        }
+
+
+        /* =====================================================
+           FOOTER CONTENT
+        ===================================================== */
+
+        .footer-list {
+            list-style: none;
+        }
+
+
+        .footer-list li {
+            margin-bottom: 12px;
+
+            color: #c9d5df;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        .footer-list li:hover {
+            color: #35c6b0;
+
+            transition: 0.3s;
+        }
+
+
+        .logout-button {
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+
+.logout-button:hover {
+    color: #caf0f8;
+}
+        /* =====================================================
+           CONTACT DETAILS
+        ===================================================== */
+
+        .contact-item {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .contact-icon {
+            width: 22px;
+
+            flex-shrink: 0;
+
+            font-size: 15px;
+        }
+
+
+        .contact-item span:last-child {
+            color: #c9d5df;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           FOOTER BOTTOM
+        ===================================================== */
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+            width: 86%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 20px 0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .footer-bottom p {
+            color: #9fb0bd;
+
+            font-size: 13px;
+        }
+
+
+        .footer-bottom span {
+            color: #35c6b0;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                width: 90%;
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            /* Navbar */
+
+            .navbar {
+                height: auto;
+
+                padding: 18px 6%;
+
+                flex-direction: column;
+
+                gap: 18px;
+            }
+
+
+            .logo {
+                font-size: 21px;
+            }
+
+
+            .nav-links {
+                width: 100%;
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+
+                gap: 15px 22px;
+            }
+
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+
+            .appointment-btn {
+                padding: 9px 15px !important;
+            }
+
+
+            /* Main */
+
+            .page-container {
+                width: 88%;
+
+                padding: 35px 0;
+            }
+
+
+            /* Footer */
+
+            .footer-container {
+                width: 88%;
+
+                grid-template-columns: 1fr;
+
+                gap: 35px;
+
+                padding: 45px 0 35px;
+            }
+
+
+            .footer-about p {
+                max-width: 100%;
+            }
+
+
+            .footer-bottom {
+                width: 88%;
+
+                flex-direction: column;
+
+                text-align: center;
+
+                padding: 18px 0;
+            }
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 450px) {
+
+            .nav-links {
+                gap: 12px 16px;
+            }
+
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+
+            .footer-container {
+                gap: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ===================================================== -->
+
+    <nav class="navbar">
+
+
+        <!-- Logo -->
+
+        <a href="{% url 'index' %}" class="logo">
+
+            Medi<span>Care</span>
+
+        </a>
+
+
+        <!-- Navigation -->
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="{% url 'index' %}">
+                    Home
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'doctors' %}">
+                    Doctors
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'departments' %}">
+                    Departments
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'contact' %}">
+                    Contact
+                </a>
+            </li>
+
+            
+            <li>
+                <a href="{% url 'booking' %}">
+                    Booking
+                </a>
+            </li>
+             <li>
+               <a href="{% url 'patient_dashboard' %}">Dashboard</a>
+               
+            </li>
+            <li>
+                <a href="{% url 'my_profile' %}">My Profile</a>
+            </li>
+
+         {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method ="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Logout</button>
+                    </form>
+                {% endif %}
+    
+
+        </ul>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ===================================================== -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer class="footer">
+
+
+        <!-- Footer Columns -->
+
+        <div class="footer-container">
+
+
+            <!-- ================= ABOUT ================= -->
+
+            <div class="footer-section footer-about">
+
+                <h2>
+                    MediCare Hospital
+                </h2>
+
+                <p>
+                    Providing trusted and quality healthcare
+                    services with experienced doctors,
+                    advanced medical facilities and
+                    compassionate patient care.
+                </p>
+
+            </div>
+
+
+
+            <!-- ================= SERVICES ================= -->
+
+            <div class="footer-section">
+
+                <h3>
+                    Our Services
+                </h3>
+
+                <ul class="footer-list">
+
+                    <li>
+                        Emergency Care
+                    </li>
+
+                    <li>
+                        Doctor Consultation
+                    </li>
+
+                    <li>
+                        Health Checkup
+                    </li>
+
+                    <li>
+                        Pharmacy
+                    </li>
+
+                    <li>
+                        Laboratory Services
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- ================= DEPARTMENTS ================= -->
+
+            <div class="footer-section">
+
+                <h3>
+                    Departments
+                </h3>
+
+                <ul class="footer-list">
+
+                    <li>
+                        Cardiology
+                    </li>
+
+                    <li>
+                        Neurology
+                    </li>
+
+                    <li>
+                        Orthopedics
+                    </li>
+
+                    <li>
+                        Pediatrics
+                    </li>
+
+                    <li>
+                        General Medicine
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- ================= CONTACT ================= -->
+
+            <div class="footer-section">
+
+                <h3>
+                    Contact Us
+                </h3>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">
+                        📍
+                    </span>
+
+                    <span>
+                        Hospital Road,<br>
+                        Kerala, India
+                    </span>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">
+                        📞
+                    </span>
+
+                    <span>
+                        +91 98765 43210
+                    </span>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">
+                        ✉
+                    </span>
+
+                    <span>
+                        info@medicare.com
+                    </span>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <span class="contact-icon">
+                        🕒
+                    </span>
+
+                    <span>
+                        Open 24 Hours
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER BOTTOM
+        ================================================= -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 <span>MediCare Hospital</span>.
+                All Rights Reserved.
+            </p>
+
+            <p>
+                Designed for Hospital Management System
+            </p>
+
+        </div>
+
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Register | MediCare Hospital{% endblock %}
+
+{% block content %}
+
+<style>
+    .register-page {
+        min-height: 80vh;
+        padding: 50px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:
+            linear-gradient(
+                rgba(10, 35, 55, 0.60),
+                rgba(10, 35, 55, 0.60)
+            ),
+            url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3")
+            center / cover no-repeat;
+        border-radius: 12px;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 440px;
+        padding: 35px;
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 16px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+    }
+
+    .register-card h2 {
+        text-align: center;
+        color: #0f3d5e;
+        font-size: 28px;
+        margin: 0 0 10px;
+    }
+
+    .register-card .subtitle {
+        text-align: center;
+        color: #718096;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .register-card form p {
+        margin-bottom: 16px;
+    }
+
+    .register-card form label {
+        display: block;
+        color: #263746;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 7px;
+    }
+
+    .register-card input {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccd8e2;
+        border-radius: 8px;
+        font-size: 14px;
+        box-sizing: border-box;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .register-card input:focus {
+        border-color: #1677a8;
+        box-shadow: 0 0 0 3px rgba(22, 119, 168, 0.12);
+    }
+
+    .register-card .helptext {
+        display: block;
+        color: #718096;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .register-card ul {
+        color: #718096;
+        font-size: 12px;
+        padding-left: 20px;
+    }
+
+    .register-card button {
+        width: 100%;
+        padding: 13px;
+        margin-top: 8px;
+        background: #0f3d5e;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .register-card button:hover {
+        background: #17618b;
+        transform: translateY(-1px);
+    }
+
+    .register-card .login-link {
+        text-align: center;
+        margin-top: 22px;
+        margin-bottom: 0;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .register-card a {
+        color: #1677a8;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-card a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+        .register-page {
+            padding: 25px 10px;
+        }
+
+        .register-card {
+            padding: 25px 20px;
+        }
+
+        .register-card h2 {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="register-page">
+    <div class="register-card">
+        <h2>Create an Account</h2>
+        <p class="subtitle">Join MediCare Hospital today</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}
+

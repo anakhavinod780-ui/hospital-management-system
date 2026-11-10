@@ -1,0 +1,224 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Book an Appointment | MediCare Hospital{% endblock %}
+
+{% block content %}
+
+<style>
+  
+.appointment-page {
+    min-height: 100vh;
+    padding: 45px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+ 
+
+background:
+    linear-gradient(
+        rgba(7, 36, 57, 0.25),
+        rgba(7, 36, 57, 0.25)
+    ),
+    url("https://images.unsplash.com/photo-1538108149393-fbbd81895907")
+    center center / cover no-repeat;
+
+background-color: #eaf3f8;
+
+
+}
+
+    .appointment-container {
+        width: 100%;
+        max-width: 620px;
+        padding: 38px;
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 20px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .appointment-icon {
+        width: 65px;
+        height: 65px;
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e2f3fa;
+        color: #087f8c;
+        border-radius: 50%;
+        font-size: 30px;
+    }
+
+    .appointment-container h1 {
+        margin: 0 0 12px;
+        text-align: center;
+        color: #0f3d5e;
+        font-size: 30px;
+    }
+
+    .appointment-description {
+        text-align: center;
+        color: #64748b;
+        font-size: 15px;
+        line-height: 1.7;
+        margin-bottom: 28px;
+    }
+
+    /* Django form fields */
+    .appointment-form p {
+        margin: 0 0 20px;
+        text-align: left;
+    }
+
+    .appointment-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #334155;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .appointment-form input:not([type="checkbox"]):not([type="radio"]),
+    .appointment-form select,
+    .appointment-form textarea {
+        display: block;
+        width: 100%;
+        min-height: 46px;
+        padding: 12px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 9px;
+        background: #f8fafc;
+        color: #1e293b;
+        font-family: inherit;
+        font-size: 15px;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.25s, box-shadow 0.25s,
+                    background 0.25s;
+    }
+
+    .appointment-form textarea {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    .appointment-form input:focus,
+    .appointment-form select:focus,
+    .appointment-form textarea:focus {
+        border-color: #087f8c;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(8, 127, 140, 0.12);
+    }
+
+    .appointment-form ul.errorlist {
+        color: #dc2626;
+        font-size: 13px;
+        padding-left: 20px;
+        margin: 6px 0;
+    }
+
+    .appointment-button {
+        width: 100%;
+        padding: 15px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #0f3d5e, #087f8c);
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .appointment-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(8, 127, 140, 0.25);
+    }
+
+    .appointment-home-link {
+        display: block;
+        text-align: center;
+        margin-top: 22px;
+        color: #087f8c;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .appointment-home-link:hover {
+        color: #0f3d5e;
+        text-decoration: underline;
+    }
+
+    .appointment-note {
+        margin-top: 22px;
+        padding-top: 17px;
+        border-top: 1px solid #e2e8f0;
+        text-align: center;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+        .appointment-page {
+            padding: 30px 14px;
+            background-attachment: scroll;
+        }
+
+        .appointment-container {
+            padding: 25px 20px;
+            border-radius: 15px;
+        }
+
+        .appointment-container h1 {
+            font-size: 25px;
+        }
+
+        .appointment-icon {
+            width: 55px;
+            height: 55px;
+            font-size: 25px;
+        }
+    }
+</style>
+
+<div class="appointment-page">
+    <div class="appointment-container">
+
+        <div class="appointment-icon">✚</div>
+
+        <h1>Book an Appointment</h1>
+
+        <p class="appointment-description">
+            Your health matters to us. Fill in the details below
+            to request an appointment with our medical team.
+        </p>
+
+        <form method="POST" class="appointment-form">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="appointment-button">
+                Book Appointment →
+            </button>
+        </form>
+
+        <a class="appointment-home-link" href="/">
+            ← Back to Home
+        </a>
+
+        <div class="appointment-note">
+            MediCare Hospital · Caring for you, every day.
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

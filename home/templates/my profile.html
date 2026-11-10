@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.profile-container {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 18px #00000012;
+}
+
+.profile-container h2 {
+    color: #123b65;
+}
+
+.profile-picture {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.profile-row {
+    padding: 13px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-row strong {
+    display: inline-block;
+    width: 130px;
+    color: #123b65;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 11px 18px;
+    margin: 15px 5px 0 0;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    background: #123b65;
+}
+
+.delete-btn {
+    background: #c03939;
+}
+</style>
+
+<div class="profile-container">
+
+    <h2>My Profile</h2>
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}"
+             class="profile-picture"
+             alt="Profile picture">
+    {% endif %}
+
+    <div class="profile-row">
+        <strong>Full Name:</strong>
+        {{ profile.full_name }}
+    </div>
+
+    <div class="profile-row">
+        <strong>Email:</strong>
+        {{ request.user.email }}
+    </div>
+
+    <div class="profile-row">
+        <strong>Phone:</strong>
+        {{ profile.phone|default:"Not added" }}
+    </div>
+
+    <div class="profile-row">
+        <strong>Address:</strong>
+        {{ profile.address|default:"Not added" }}
+    </div>
+
+    <a href="{% url 'edit_profile' %}" class="action-btn">
+        Edit Profile
+    </a>
+
+    <a href="{% url 'delete_account' %}"
+       class="action-btn delete-btn">
+        Delete Account
+    </a>
+
+    <a href="{% url 'patient_dashboard' %}" class="action-btn">
+        Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

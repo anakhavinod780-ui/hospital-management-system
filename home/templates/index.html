@@ -1,0 +1,729 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home | MediCare Hospital{% endblock %}
+
+{% block content %}
+
+<style>
+    /* General */
+    .mc-home {
+        --navy: #103b5c;
+        --teal: #24bfa7;
+        --muted: #64748b;
+        color: #17344b;
+        overflow: hidden;
+    }
+
+    .mc-home * {
+        box-sizing: border-box;
+    }
+
+    .mc-container {
+        width: min(1200px, 92%);
+        margin: auto;
+    }
+
+    .mc-home a {
+        text-decoration: none;
+    }
+
+    /* Hero */
+    .mc-hero {
+        position: relative;
+        min-height: 510px;
+        display: flex;
+        align-items: center;
+        padding: 65px 7%;
+        overflow: hidden;
+        border-radius: 0 0 28px 28px;
+        background:
+            linear-gradient(90deg,
+                rgba(7, 38, 63, .96) 0%,
+                rgba(9, 49, 76, .86) 48%,
+                rgba(9, 49, 76, .22) 100%),
+            url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1800&q=85');
+        background-position: center;
+        background-size: cover;
+        color: white;
+    }
+
+    .mc-hero-content {
+        max-width: 650px;
+        position: relative;
+        z-index: 1;
+        animation: mc-appear .8s ease both;
+    }
+
+    .mc-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: rgba(36, 191, 167, .15);
+        border: 1px solid rgba(100, 240, 220, .4);
+        color: #9ff5e7;
+        border-radius: 30px;
+        padding: 9px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .mc-hero h1 {
+        font-size: clamp(38px, 5vw, 65px);
+        line-height: 1.12;
+        letter-spacing: -1.5px;
+        margin: 25px 0 20px;
+        font-weight: 800;
+    }
+
+    .mc-hero h1 span {
+        color: #48dfc5;
+    }
+
+    .mc-hero p {
+        max-width: 540px;
+        color: #e0edf4;
+        font-size: 16px;
+        line-height: 1.9;
+        margin-bottom: 30px;
+    }
+
+    .mc-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 13px;
+    }
+
+    .mc-btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 9px;
+        padding: 14px 22px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        transition: .25s ease;
+    }
+
+    .mc-btn-primary {
+        background: var(--teal);
+        color: #073b45;
+        box-shadow: 0 8px 24px rgba(36, 191, 167, .22);
+    }
+
+    .mc-btn-primary:hover {
+        background: #65e5d0;
+        transform: translateY(-3px);
+        color: #073b45;
+    }
+
+    .mc-btn-outline {
+        color: white;
+        border: 1px solid rgba(255,255,255,.6);
+        background: rgba(255,255,255,.08);
+    }
+
+    .mc-btn-outline:hover {
+        background: white;
+        color: var(--navy);
+    }
+
+    /* Trust strip */
+    .mc-trust {
+        position: relative;
+        z-index: 2;
+        width: min(1080px, 90%);
+        margin: -35px auto 0;
+        background: white;
+        padding: 25px 20px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        border-radius: 16px;
+        box-shadow: 0 15px 45px rgba(16, 59, 92, .12);
+    }
+
+    .mc-trust-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 13px;
+        padding: 5px;
+    }
+
+    .mc-trust-icon {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 13px;
+        background: #e5faf5;
+        font-size: 23px;
+    }
+
+    .mc-trust-item strong {
+        display: block;
+        font-size: 15px;
+        color: var(--navy);
+        margin-bottom: 5px;
+    }
+
+    .mc-trust-item small {
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    /* Section headings */
+    .mc-section {
+        padding: 80px 0 20px;
+    }
+
+    .mc-heading {
+        text-align: center;
+        max-width: 650px;
+        margin: 0 auto 38px;
+    }
+
+    .mc-heading-label {
+        color: #079c8a;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .mc-heading h2 {
+        font-size: clamp(28px, 3vw, 39px);
+        letter-spacing: -.8px;
+        color: var(--navy);
+        margin: 12px 0;
+        font-weight: 800;
+    }
+
+    .mc-heading p {
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    /* Services */
+    .mc-services {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .mc-service {
+        background: white;
+        border: 1px solid #e6eef3;
+        border-radius: 15px;
+        padding: 28px 23px;
+        box-shadow: 0 5px 20px rgba(16, 59, 92, .045);
+        transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+
+    .mc-service:hover {
+        transform: translateY(-8px);
+        border-color: #b6eee4;
+        box-shadow: 0 16px 35px rgba(16, 59, 92, .11);
+    }
+
+    .mc-service-icon {
+        width: 60px;
+        height: 60px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        font-size: 29px;
+        background: #e4faf5;
+        margin-bottom: 22px;
+    }
+
+    .mc-service:nth-child(2) .mc-service-icon {
+        background: #fff0ed;
+    }
+
+    .mc-service:nth-child(3) .mc-service-icon {
+        background: #eaf1ff;
+    }
+
+    .mc-service:nth-child(4) .mc-service-icon {
+        background: #fff6df;
+    }
+
+    .mc-service h3 {
+        font-size: 18px;
+        color: var(--navy);
+        margin: 0 0 12px;
+    }
+
+    .mc-service p {
+        font-size: 13px;
+        line-height: 1.85;
+        color: var(--muted);
+        margin: 0 0 20px;
+    }
+
+    .mc-service-link {
+        color: #079c8a;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .mc-service-link:hover {
+        color: var(--navy);
+    }
+
+    /* About */
+    .mc-about {
+        padding: 80px 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 65px;
+    }
+
+    .mc-about-image {
+        position: relative;
+        padding: 0 22px 22px 0;
+    }
+
+    .mc-about-image img {
+        width: 100%;
+        height: 410px;
+        object-fit: cover;
+        display: block;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(16, 59, 92, .12);
+    }
+
+    .mc-image-badge {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background: white;
+        border-radius: 14px;
+        padding: 20px 24px;
+        box-shadow: 0 10px 35px rgba(16, 59, 92, .15);
+    }
+
+    .mc-image-badge strong {
+        display: block;
+        font-size: 25px;
+        color: #079c8a;
+    }
+
+    .mc-image-badge span {
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    .mc-about-copy .mc-heading-label {
+        display: block;
+        margin-bottom: 12px;
+    }
+
+    .mc-about-copy h2 {
+        font-size: clamp(28px, 3vw, 39px);
+        color: var(--navy);
+        line-height: 1.25;
+        margin: 0 0 20px;
+    }
+
+    .mc-about-copy p {
+        color: var(--muted);
+        line-height: 1.9;
+        font-size: 14px;
+        margin-bottom: 22px;
+    }
+
+    .mc-benefits {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 28px;
+        display: grid;
+        gap: 14px;
+    }
+
+    .mc-benefits li {
+        display: flex;
+        gap: 11px;
+        align-items: center;
+        font-size: 14px;
+        color: #304b60;
+    }
+
+    .mc-check {
+        display: grid;
+        place-items: center;
+        width: 23px;
+        height: 23px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        color: #078b78;
+        background: #dff8f1;
+        font-weight: 800;
+    }
+
+    /* Appointment banner */
+    .mc-appointment {
+        position: relative;
+        overflow: hidden;
+        padding: 48px;
+        margin: 15px 0 75px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        background: linear-gradient(120deg, #103b5c, #126b78);
+        color: white;
+        border-radius: 20px;
+    }
+
+    .mc-appointment::after {
+        content: "+";
+        position: absolute;
+        right: 23%;
+        top: -95px;
+        font-size: 300px;
+        line-height: 1;
+        font-weight: 100;
+        color: rgba(255,255,255,.045);
+        pointer-events: none;
+    }
+
+    .mc-appointment-copy {
+        position: relative;
+        z-index: 1;
+    }
+
+    .mc-appointment h2 {
+        font-size: clamp(25px, 3vw, 35px);
+        margin: 0 0 12px;
+    }
+
+    .mc-appointment p {
+        margin: 0;
+        color: #d9eaf0;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .mc-appointment .mc-btn {
+        position: relative;
+        z-index: 1;
+        flex-shrink: 0;
+    }
+
+    @keyframes mc-appear {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive design */
+    @media (max-width: 900px) {
+        .mc-hero {
+            padding: 55px 6%;
+        }
+
+        .mc-services {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .mc-about {
+            gap: 35px;
+        }
+
+        .mc-trust {
+            width: 94%;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .mc-hero {
+            min-height: 450px;
+            padding: 45px 6%;
+            background-position: 60% center;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .mc-hero h1 {
+            letter-spacing: -.7px;
+        }
+
+        .mc-hero p {
+            font-size: 14px;
+        }
+
+        .mc-btn {
+            padding: 13px 16px;
+            font-size: 12px;
+        }
+
+        .mc-trust {
+            grid-template-columns: 1fr;
+            margin-top: -20px;
+            padding: 17px;
+            gap: 12px;
+        }
+
+        .mc-trust-item {
+            justify-content: flex-start;
+        }
+
+        .mc-section {
+            padding-top: 60px;
+        }
+
+        .mc-services {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .mc-service {
+            padding: 24px;
+        }
+
+        .mc-about {
+            grid-template-columns: 1fr;
+            padding: 55px 0;
+            gap: 35px;
+        }
+
+        .mc-about-image img {
+            height: 290px;
+        }
+
+        .mc-appointment {
+            padding: 30px 24px;
+            margin-bottom: 45px;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="mc-home">
+
+    <!-- Hero Section -->
+    <section class="mc-hero">
+        <div class="mc-hero-content">
+
+            <span class="mc-eyebrow">
+                ✦ Compassionate Care, Every Day
+            </span>
+
+            <h1>
+                Your Health.<br>
+                Our <span>Priority.</span>
+            </h1>
+
+            <p>
+                Welcome to MediCare Hospital, where modern medical
+                care meets genuine compassion. Our dedicated team
+                is here to support your health and your family's
+                well-being at every step.
+            </p>
+
+            <div class="mc-actions">
+                <a href="{% url 'booking' %}"
+                   class="mc-btn mc-btn-primary">
+                    Book an Appointment <span>→</span>
+                </a>
+
+                <a href="{% url 'doctors' %}"
+                   class="mc-btn mc-btn-outline">
+                    Meet Our Doctors
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Trust Highlights -->
+    <div class="mc-trust">
+
+        <div class="mc-trust-item">
+            <div class="mc-trust-icon">🩺</div>
+            <div>
+                <strong>Expert Medical Care</strong>
+                <small>Care from dedicated professionals</small>
+            </div>
+        </div>
+
+        <div class="mc-trust-item">
+            <div class="mc-trust-icon">💙</div>
+            <div>
+                <strong>Patient First</strong>
+                <small>Your comfort matters to us</small>
+            </div>
+        </div>
+
+        <div class="mc-trust-item">
+            <div class="mc-trust-icon">🏥</div>
+            <div>
+                <strong>Modern Healthcare</strong>
+                <small>Care focused on your needs</small>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mc-container">
+
+        <!-- Services -->
+        <section class="mc-section">
+
+            <div class="mc-heading">
+                <span class="mc-heading-label">What We Offer</span>
+                <h2>Our Medical Services</h2>
+                <p>
+                    Comprehensive healthcare services designed to help
+                    you and your family live healthier lives.
+                </p>
+            </div>
+
+            <div class="mc-services">
+
+                <article class="mc-service">
+                    <div class="mc-service-icon">🩺</div>
+                    <h3>General Medicine</h3>
+                    <p>
+                        Routine checkups, health consultations,
+                        preventive care, and personalized treatment.
+                    </p>
+                    <a href="{% url 'doctors' %}" class="mc-service-link">
+                        Find a Doctor →
+                    </a>
+                </article>
+
+                <article class="mc-service">
+                    <div class="mc-service-icon">❤️</div>
+                    <h3>Cardiology</h3>
+                    <p>
+                        Heart health consultations and guidance
+                        focused on cardiovascular well-being.
+                    </p>
+                    <a href="{% url 'doctors' %}" class="mc-service-link">
+                        Find a Doctor →
+                    </a>
+                </article>
+
+                <article class="mc-service">
+                    <div class="mc-service-icon">👶</div>
+                    <h3>Pediatrics</h3>
+                    <p>
+                        Caring healthcare services supporting the
+                        health and development of children.
+                    </p>
+                    <a href="{% url 'doctors' %}" class="mc-service-link">
+                        Find a Doctor →
+                    </a>
+                </article>
+
+                <article class="mc-service">
+                    <div class="mc-service-icon">🧪</div>
+                    <h3>Diagnostics</h3>
+                    <p>
+                        Diagnostic services that support medical
+                        assessment and informed treatment decisions.
+                    </p>
+                    <a href="{% url 'departments' %}" class="mc-service-link">
+                        Explore Departments →
+                    </a>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- About -->
+        <section class="mc-about">
+
+            <div class="mc-about-image">
+                <img
+                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=85"
+                    alt="Healthcare professional providing patient care"
+                    loading="lazy"
+                >
+
+                <div class="mc-image-badge">
+                    <strong>24/7</strong>
+                    <span>Care when you need it</span>
+                </div>
+            </div>
+
+            <div class="mc-about-copy">
+
+                <span class="mc-heading-label">About MediCare</span>
+
+                <h2>Healthcare with a Human Touch</h2>
+
+                <p>
+                    At MediCare Hospital, we believe quality healthcare
+                    begins with listening, understanding, and caring.
+                    Our goal is to create a welcoming environment where
+                    every patient feels respected and supported.
+                </p>
+
+                <ul class="mc-benefits">
+                    <li>
+                        <span class="mc-check">✓</span>
+                        Patient-focused healthcare
+                    </li>
+                    <li>
+                        <span class="mc-check">✓</span>
+                        Dedicated medical professionals
+                    </li>
+                    <li>
+                        <span class="mc-check">✓</span>
+                        A welcoming and comfortable environment
+                    </li>
+                    <li>
+                        <span class="mc-check">✓</span>
+                        Convenient appointment booking
+                    </li>
+                </ul>
+
+                <a href="{% url 'about' %}"
+                   class="mc-btn mc-btn-primary">
+                    Discover Our Hospital →
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- Appointment Call to Action -->
+        <section class="mc-appointment">
+
+            <div class="mc-appointment-copy">
+                <h2>Your Health Deserves Attention.</h2>
+                <p>
+                    Take the next step towards better health.
+                    Schedule an appointment with our medical team.
+                </p>
+            </div>
+
+            <a href="{% url 'booking' %}"
+               class="mc-btn mc-btn-primary">
+                Book Your Visit →
+            </a>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

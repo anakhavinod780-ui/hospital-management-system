@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.edit-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 18px #00000012;
+}
+
+.edit-container h2 {
+    color: #123b65;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 18px;
+    border: 1px solid #ccd5df;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.save-btn {
+    background: #123b65;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+</style>
+
+<div class="edit-container">
+
+    <h2>Edit My Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="save-btn">
+            Save Changes
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
