@@ -1,12 +1,14 @@
+
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 from .recommendation import recommend_doctors, find_specializations
+from .forms import BookingForm, PatientSignupForm, contactform, PatientProfileForm
+from .models import Booking, PatientProfile, dept, doctor
 
-from .forms import BookingForm, PatientSignupForm, contactform
-from . models import Booking, PatientProfile, dept, doctor
-from.forms import PatientProfileForm
 
 # Create your views here.
 def index(request):
