@@ -1,726 +1,618 @@
 
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home | MediCare Hospital{% endblock %}
 
 {% block content %}
 
 <style>
-    /* General */
-    .mc-home {
-        --navy: #103b5c;
-        --teal: #24bfa7;
-        --muted: #64748b;
-        color: #17344b;
-        overflow: hidden;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --navy: #102B46;
+    --navy-dark: #071B2C;
+    --navy-light: #1D4566;
+    --offwhite: #F5F2E9;
+    --muted: #D1DCE5;
+    --accent: #A9C3D6;
+}
+
+/* HERO SECTION */
+
+.hero-wrapper {
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    width: 100%;
+    min-height: 650px;
+    height: calc(100vh - 80px);
+    max-height: 900px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--navy-dark);
+}
+
+/* BACKGROUND IMAGE */
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: #071B2C;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            #071B2C 0%,
+            rgba(7,27,44,0.98) 25%,
+            rgba(7,27,44,0.75) 43%,
+            transparent 70%
+        ),
+        url("{% static 'images/hospital.png' %}");
+
+    /* Keep the complete image visible */
+    background-size: cover, contain;
+
+    /* Move image to right and bottom */
+    background-position: center, right bottom;
+
+    background-repeat: no-repeat, no-repeat;
+
+    z-index: 1;
+}
+/* EXTRA IMAGE OVERLAY */
+
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        180deg,
+        rgba(7,27,44,0.15),
+        transparent 50%,
+        rgba(7,27,44,0.65)
+    );
+}
+
+/* MAIN CONTENT */
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+
+    width: 100%;
+    max-width: 1450px;
+
+    margin: 0 auto;
+    padding: 0 5%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-text-box {
+    max-width: 600px;
+    margin-top: -30px;
+    margin-bottom: 105px;
+}
+
+/* SMALL LABEL */
+
+.hero-label {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    color: var(--offwhite);
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+    margin-bottom: 35px;
+}
+
+.hero-label::before {
+    content: '';
+    width: 42px;
+    height: 3px;
+    background: var(--accent);
+}
+
+.hero-label span {
+    color: var(--accent);
+}
+
+/* HEADING */
+
+.hero-text-box h1 {
+    font-size: clamp(44px, 5.2vw, 72px);
+    line-height: 1.08;
+
+    font-weight: 900;
+    letter-spacing: -2.5px;
+
+    color: var(--offwhite);
+    margin-bottom: 22px;
+}
+
+.hero-text-box h1 span {
+    color: var(--accent);
+}
+
+/* DESCRIPTION */
+
+.hero-text-box p {
+    font-size: 17px;
+    line-height: 1.9;
+
+    color: #E0E7EC;
+    font-weight: 400;
+
+    max-width: 480px;
+    margin-bottom: 30px;
+}
+
+/* APPOINTMENT BUTTON */
+
+.btn-book-appt {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    padding: 16px 30px;
+
+    background: var(--offwhite);
+    color: var(--navy-dark);
+
+    border-radius: 50px;
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.btn-book-appt:hover {
+    background: var(--accent);
+    color: var(--navy-dark);
+    transform: translateY(-4px);
+}
+
+.btn-book-appt svg {
+    width: 21px;
+    height: 21px;
+    stroke: currentColor;
+}
+
+/* FEATURE BAR */
+
+.features-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+
+    width: min(850px, 90%);
+    min-height: 122px;
+
+    padding: 20px 28px 18px 5%;
+
+    background: rgba(7, 27, 44, 0.96);
+
+    border-top: 1px solid rgba(169,195,214,0.18);
+    border-right: 1px solid rgba(169,195,214,0.18);
+
+    border-top-right-radius: 42px;
+}
+
+/* INDIVIDUAL FEATURE */
+
+.feature-card {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    text-decoration: none;
+
+    padding: 0 17px;
+
+    border-right: 1px solid rgba(245,242,233,0.22);
+
+    transition: 0.3s ease;
+}
+
+.feature-card:first-child {
+    padding-left: 0;
+}
+
+.feature-card:last-child {
+    border-right: none;
+}
+
+/* ICON */
+
+
+/* HOVER */
+
+.feature-card:hover .feature-icon-wrapper {
+    color: var(--offwhite);
+    transform: translateY(-4px);
+}
+
+/* FEATURE HEADING */
+
+.feature-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+
+    color: var(--offwhite);
+
+    margin: 0 0 5px;
+    line-height: 1.4;
+}
+
+/* FEATURE DESCRIPTION */
+
+.feature-card p {
+    font-size: 11px;
+    font-weight: 400;
+
+    color: #B9C9D6;
+
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+
+    .hero-wrapper {
+        min-height: 680px;
     }
 
-    .mc-home * {
-        box-sizing: border-box;
+    .hero-bg {
+        background-position: 60% center;
     }
 
-    .mc-container {
-        width: min(1200px, 92%);
-        margin: auto;
+    .hero-text-box {
+        max-width: 520px;
     }
 
-    .mc-home a {
-        text-decoration: none;
+    .features-row {
+        width: 95%;
+        padding-left: 4%;
     }
 
-    /* Hero */
-    .mc-hero {
-        position: relative;
-        min-height: 510px;
-        display: flex;
-        align-items: center;
-        padding: 65px 7%;
-        overflow: hidden;
-        border-radius: 0 0 28px 28px;
-        background:
-            linear-gradient(90deg,
-                rgba(7, 38, 63, .96) 0%,
-                rgba(9, 49, 76, .86) 48%,
-                rgba(9, 49, 76, .22) 100%),
-            url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1800&q=85');
+    .feature-card {
+        padding: 0 12px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .hero-wrapper {
+        height: auto;
+        min-height: 850px;
+        padding: 65px 0 180px;
+        align-items: flex-start;
+    }
+
+    .hero-bg {
         background-position: center;
-        background-size: cover;
-        color: white;
     }
 
-    .mc-hero-content {
-        max-width: 650px;
-        position: relative;
-        z-index: 1;
-        animation: mc-appear .8s ease both;
+    .hero-bg::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(7,27,44,0.35);
     }
 
-    .mc-eyebrow {
-        display: inline-flex;
+    .hero-content {
         align-items: center;
-        gap: 9px;
-        background: rgba(36, 191, 167, .15);
-        border: 1px solid rgba(100, 240, 220, .4);
-        color: #9ff5e7;
-        border-radius: 30px;
-        padding: 9px 16px;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-
-    .mc-hero h1 {
-        font-size: clamp(38px, 5vw, 65px);
-        line-height: 1.12;
-        letter-spacing: -1.5px;
-        margin: 25px 0 20px;
-        font-weight: 800;
-    }
-
-    .mc-hero h1 span {
-        color: #48dfc5;
-    }
-
-    .mc-hero p {
-        max-width: 540px;
-        color: #e0edf4;
-        font-size: 16px;
-        line-height: 1.9;
-        margin-bottom: 30px;
-    }
-
-    .mc-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 13px;
-    }
-
-    .mc-btn {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        gap: 9px;
-        padding: 14px 22px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 700;
-        transition: .25s ease;
-    }
-
-    .mc-btn-primary {
-        background: var(--teal);
-        color: #073b45;
-        box-shadow: 0 8px 24px rgba(36, 191, 167, .22);
-    }
-
-    .mc-btn-primary:hover {
-        background: #65e5d0;
-        transform: translateY(-3px);
-        color: #073b45;
-    }
-
-    .mc-btn-outline {
-        color: white;
-        border: 1px solid rgba(255,255,255,.6);
-        background: rgba(255,255,255,.08);
-    }
-
-    .mc-btn-outline:hover {
-        background: white;
-        color: var(--navy);
-    }
-
-    /* Trust strip */
-    .mc-trust {
-        position: relative;
-        z-index: 2;
-        width: min(1080px, 90%);
-        margin: -35px auto 0;
-        background: white;
-        padding: 25px 20px;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-        border-radius: 16px;
-        box-shadow: 0 15px 45px rgba(16, 59, 92, .12);
-    }
-
-    .mc-trust-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 13px;
-        padding: 5px;
-    }
-
-    .mc-trust-icon {
-        width: 48px;
-        height: 48px;
-        flex-shrink: 0;
-        display: grid;
-        place-items: center;
-        border-radius: 13px;
-        background: #e5faf5;
-        font-size: 23px;
-    }
-
-    .mc-trust-item strong {
-        display: block;
-        font-size: 15px;
-        color: var(--navy);
-        margin-bottom: 5px;
-    }
-
-    .mc-trust-item small {
-        color: var(--muted);
-        font-size: 12px;
-    }
-
-    /* Section headings */
-    .mc-section {
-        padding: 80px 0 20px;
-    }
-
-    .mc-heading {
         text-align: center;
-        max-width: 650px;
-        margin: 0 auto 38px;
     }
 
-    .mc-heading-label {
-        color: #079c8a;
-        text-transform: uppercase;
+    .hero-text-box {
+        margin-top: 0;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-label {
+        justify-content: center;
+        font-size: 11px;
         letter-spacing: 2px;
-        font-size: 12px;
-        font-weight: 800;
     }
 
-    .mc-heading h2 {
-        font-size: clamp(28px, 3vw, 39px);
-        letter-spacing: -.8px;
-        color: var(--navy);
-        margin: 12px 0;
-        font-weight: 800;
+    .hero-text-box h1 {
+        font-size: 47px;
+        letter-spacing: -1.5px;
     }
 
-    .mc-heading p {
-        color: var(--muted);
+    .hero-text-box p {
         font-size: 15px;
-        line-height: 1.8;
     }
 
-    /* Services */
-    .mc-services {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 22px;
+    .features-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+
+    width: min(760px, 85%);
+    min-height: 100px;
+
+    padding: 13px 22px 13px 4%;
+
+    background: rgba(7, 27, 44, 0.97);
+
+    border-top: 1px solid rgba(169,195,214,0.18);
+    border-right: 1px solid rgba(169,195,214,0.18);
+
+    border-top-right-radius: 35px;
+}
+
+    .feature-icon-wrapper {
+    width: 29px;
+    height: 29px;
+    margin-bottom: 5px;
+    color: var(--accent);
+}
+
+.feature-icon-wrapper svg {
+    width: 24px;
+    height: 24px;
+}
+
+.feature-card {
+    padding: 0 13px;
+}
+
+.feature-card h3 {
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.feature-card p {
+    font-size: 10px;
+}
+}
+/* SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+    .hero-wrapper {
+        min-height: 820px;
+        padding-top: 55px;
     }
 
-    .mc-service {
-        background: white;
-        border: 1px solid #e6eef3;
-        border-radius: 15px;
-        padding: 28px 23px;
-        box-shadow: 0 5px 20px rgba(16, 59, 92, .045);
-        transition: transform .25s, box-shadow .25s, border-color .25s;
+    .hero-text-box h1 {
+        font-size: 38px;
     }
 
-    .mc-service:hover {
-        transform: translateY(-8px);
-        border-color: #b6eee4;
-        box-shadow: 0 16px 35px rgba(16, 59, 92, .11);
+    .hero-text-box p {
+        font-size: 14px;
     }
 
-    .mc-service-icon {
-        width: 60px;
-        height: 60px;
-        display: grid;
-        place-items: center;
-        border-radius: 16px;
-        font-size: 29px;
-        background: #e4faf5;
-        margin-bottom: 22px;
-    }
-
-    .mc-service:nth-child(2) .mc-service-icon {
-        background: #fff0ed;
-    }
-
-    .mc-service:nth-child(3) .mc-service-icon {
-        background: #eaf1ff;
-    }
-
-    .mc-service:nth-child(4) .mc-service-icon {
-        background: #fff6df;
-    }
-
-    .mc-service h3 {
-        font-size: 18px;
-        color: var(--navy);
-        margin: 0 0 12px;
-    }
-
-    .mc-service p {
+    .btn-book-appt {
+        padding: 14px 22px;
         font-size: 13px;
-        line-height: 1.85;
-        color: var(--muted);
-        margin: 0 0 20px;
     }
 
-    .mc-service-link {
-        color: #079c8a;
-        font-weight: 700;
-        font-size: 13px;
+    .features-row {
+        padding: 17px 8px;
+        gap: 18px 5px;
     }
 
-    .mc-service-link:hover {
-        color: var(--navy);
+    .feature-icon-wrapper svg {
+        width: 26px;
+        height: 26px;
     }
-
-    /* About */
-    .mc-about {
-        padding: 80px 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        gap: 65px;
-    }
-
-    .mc-about-image {
-        position: relative;
-        padding: 0 22px 22px 0;
-    }
-
-    .mc-about-image img {
-        width: 100%;
-        height: 410px;
-        object-fit: cover;
-        display: block;
-        border-radius: 20px;
-        box-shadow: 0 15px 40px rgba(16, 59, 92, .12);
-    }
-
-    .mc-image-badge {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        background: white;
-        border-radius: 14px;
-        padding: 20px 24px;
-        box-shadow: 0 10px 35px rgba(16, 59, 92, .15);
-    }
-
-    .mc-image-badge strong {
-        display: block;
-        font-size: 25px;
-        color: #079c8a;
-    }
-
-    .mc-image-badge span {
-        font-size: 12px;
-        color: var(--muted);
-    }
-
-    .mc-about-copy .mc-heading-label {
-        display: block;
-        margin-bottom: 12px;
-    }
-
-    .mc-about-copy h2 {
-        font-size: clamp(28px, 3vw, 39px);
-        color: var(--navy);
-        line-height: 1.25;
-        margin: 0 0 20px;
-    }
-
-    .mc-about-copy p {
-        color: var(--muted);
-        line-height: 1.9;
-        font-size: 14px;
-        margin-bottom: 22px;
-    }
-
-    .mc-benefits {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 28px;
-        display: grid;
-        gap: 14px;
-    }
-
-    .mc-benefits li {
-        display: flex;
-        gap: 11px;
-        align-items: center;
-        font-size: 14px;
-        color: #304b60;
-    }
-
-    .mc-check {
-        display: grid;
-        place-items: center;
-        width: 23px;
-        height: 23px;
-        flex-shrink: 0;
-        border-radius: 50%;
-        color: #078b78;
-        background: #dff8f1;
-        font-weight: 800;
-    }
-
-    /* Appointment banner */
-    .mc-appointment {
-        position: relative;
-        overflow: hidden;
-        padding: 48px;
-        margin: 15px 0 75px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 25px;
-        background: linear-gradient(120deg, #103b5c, #126b78);
-        color: white;
-        border-radius: 20px;
-    }
-
-    .mc-appointment::after {
-        content: "+";
-        position: absolute;
-        right: 23%;
-        top: -95px;
-        font-size: 300px;
-        line-height: 1;
-        font-weight: 100;
-        color: rgba(255,255,255,.045);
-        pointer-events: none;
-    }
-
-    .mc-appointment-copy {
-        position: relative;
-        z-index: 1;
-    }
-
-    .mc-appointment h2 {
-        font-size: clamp(25px, 3vw, 35px);
-        margin: 0 0 12px;
-    }
-
-    .mc-appointment p {
-        margin: 0;
-        color: #d9eaf0;
-        font-size: 14px;
-        line-height: 1.8;
-    }
-
-    .mc-appointment .mc-btn {
-        position: relative;
-        z-index: 1;
-        flex-shrink: 0;
-    }
-
-    @keyframes mc-appear {
-        from {
-            opacity: 0;
-            transform: translateY(18px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Responsive design */
-    @media (max-width: 900px) {
-        .mc-hero {
-            padding: 55px 6%;
-        }
-
-        .mc-services {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .mc-about {
-            gap: 35px;
-        }
-
-        .mc-trust {
-            width: 94%;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .mc-hero {
-            min-height: 450px;
-            padding: 45px 6%;
-            background-position: 60% center;
-            border-radius: 0 0 18px 18px;
-        }
-
-        .mc-hero h1 {
-            letter-spacing: -.7px;
-        }
-
-        .mc-hero p {
-            font-size: 14px;
-        }
-
-        .mc-btn {
-            padding: 13px 16px;
-            font-size: 12px;
-        }
-
-        .mc-trust {
-            grid-template-columns: 1fr;
-            margin-top: -20px;
-            padding: 17px;
-            gap: 12px;
-        }
-
-        .mc-trust-item {
-            justify-content: flex-start;
-        }
-
-        .mc-section {
-            padding-top: 60px;
-        }
-
-        .mc-services {
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        .mc-service {
-            padding: 24px;
-        }
-
-        .mc-about {
-            grid-template-columns: 1fr;
-            padding: 55px 0;
-            gap: 35px;
-        }
-
-        .mc-about-image img {
-            height: 290px;
-        }
-
-        .mc-appointment {
-            padding: 30px 24px;
-            margin-bottom: 45px;
-            align-items: flex-start;
-            flex-direction: column;
-        }
-    }
+}
 </style>
 
-<div class="mc-home">
 
-    <!-- Hero Section -->
-    <section class="mc-hero">
-        <div class="mc-hero-content">
+<!-- HERO SECTION -->
 
-            <span class="mc-eyebrow">
-                ✦ Compassionate Care, Every Day
-            </span>
+<div class="hero-wrapper">
+
+    <!-- Background -->
+    <div class="hero-bg"></div>
+
+    <!-- Main Content -->
+    <div class="hero-content">
+
+        <div class="hero-text-box">
+
+            <div class="hero-label">
+                Quality <span>•</span>
+                Compassion <span>•</span>
+                Care
+            </div>
 
             <h1>
-                Your Health.<br>
-                Our <span>Priority.</span>
+                Your Health,<br>
+                <span>Our Priority</span>
             </h1>
 
             <p>
-                Welcome to MediCare Hospital, where modern medical
-                care meets genuine compassion. Our dedicated team
-                is here to support your health and your family's
-                well-being at every step.
+                Experience exceptional healthcare with
+                expert doctors and compassionate medical care.
+                Your health and well-being are always our priority.
             </p>
 
-            <div class="mc-actions">
-                <a href="{% url 'booking' %}"
-                   class="mc-btn mc-btn-primary">
-                    Book an Appointment <span>→</span>
-                </a>
+            <!-- Appointment Button -->
 
-                <a href="{% url 'doctors' %}"
-                   class="mc-btn mc-btn-outline">
-                    Meet Our Doctors
-                </a>
-            </div>
+            <a href="{% url 'booking' %}" class="btn-book-appt">
 
-        </div>
-    </section>
+                <!-- Stethoscope -->
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
 
-    <!-- Trust Highlights -->
-    <div class="mc-trust">
+                    <path d="M5.5 3.5v5a3.5 3.5 0 0 0 7 0v-5"/>
+                    <path d="M3 3.5h5M10 3.5h5"/>
+                    <path d="M9 12v2a4 4 0 0 0 8 0v-2"/>
+                    <circle cx="17" cy="9" r="2"/>
 
-        <div class="mc-trust-item">
-            <div class="mc-trust-icon">🩺</div>
-            <div>
-                <strong>Expert Medical Care</strong>
-                <small>Care from dedicated professionals</small>
-            </div>
-        </div>
+                </svg>
 
-        <div class="mc-trust-item">
-            <div class="mc-trust-icon">💙</div>
-            <div>
-                <strong>Patient First</strong>
-                <small>Your comfort matters to us</small>
-            </div>
-        </div>
+                Book an Appointment
 
-        <div class="mc-trust-item">
-            <div class="mc-trust-icon">🏥</div>
-            <div>
-                <strong>Modern Healthcare</strong>
-                <small>Care focused on your needs</small>
-            </div>
+                <!-- Arrow -->
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+
+                </svg>
+
+            </a>
+
         </div>
 
     </div>
 
-    <div class="mc-container">
 
-        <!-- Services -->
-        <section class="mc-section">
+    <!-- BOTTOM FEATURE BAR -->
 
-            <div class="mc-heading">
-                <span class="mc-heading-label">What We Offer</span>
-                <h2>Our Medical Services</h2>
-                <p>
-                    Comprehensive healthcare services designed to help
-                    you and your family live healthier lives.
-                </p>
-            </div>
+    <div class="features-row">
 
-            <div class="mc-services">
+        <!-- FEATURE 1 -->
 
-                <article class="mc-service">
-                    <div class="mc-service-icon">🩺</div>
-                    <h3>General Medicine</h3>
-                    <p>
-                        Routine checkups, health consultations,
-                        preventive care, and personalized treatment.
-                    </p>
-                    <a href="{% url 'doctors' %}" class="mc-service-link">
-                        Find a Doctor →
-                    </a>
-                </article>
+        <a href="{% url 'doctors' %}" class="feature-card">
 
-                <article class="mc-service">
-                    <div class="mc-service-icon">❤️</div>
-                    <h3>Cardiology</h3>
-                    <p>
-                        Heart health consultations and guidance
-                        focused on cardiovascular well-being.
-                    </p>
-                    <a href="{% url 'doctors' %}" class="mc-service-link">
-                        Find a Doctor →
-                    </a>
-                </article>
+            <div class="feature-icon-wrapper">
 
-                <article class="mc-service">
-                    <div class="mc-service-icon">👶</div>
-                    <h3>Pediatrics</h3>
-                    <p>
-                        Caring healthcare services supporting the
-                        health and development of children.
-                    </p>
-                    <a href="{% url 'doctors' %}" class="mc-service-link">
-                        Find a Doctor →
-                    </a>
-                </article>
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
 
-                <article class="mc-service">
-                    <div class="mc-service-icon">🧪</div>
-                    <h3>Diagnostics</h3>
-                    <p>
-                        Diagnostic services that support medical
-                        assessment and informed treatment decisions.
-                    </p>
-                    <a href="{% url 'departments' %}" class="mc-service-link">
-                        Explore Departments →
-                    </a>
-                </article>
+                    <path d="M6 3v5a3 3 0 0 0 6 0V3"/>
+                    <path d="M4 3h4M10 3h4"/>
+                    <path d="M9 11v2a4 4 0 0 0 8 0v-2"/>
+                    <circle cx="17" cy="9" r="2"/>
+                    <path d="M12 18v3m-3-3h6"/>
+
+                </svg>
 
             </div>
 
-        </section>
+            <h3>Expert Doctors</h3>
+            <p>Experienced specialists</p>
 
-        <!-- About -->
-        <section class="mc-about">
+        </a>
 
-            <div class="mc-about-image">
-                <img
-                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1000&q=85"
-                    alt="Healthcare professional providing patient care"
-                    loading="lazy"
-                >
 
-                <div class="mc-image-badge">
-                    <strong>24/7</strong>
-                    <span>Care when you need it</span>
-                </div>
-            </div>
+        <!-- FEATURE 2 -->
 
-            <div class="mc-about-copy">
+        <a href="{% url 'departments' %}" class="feature-card">
 
-                <span class="mc-heading-label">About MediCare</span>
+            <div class="feature-icon-wrapper">
 
-                <h2>Healthcare with a Human Touch</h2>
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
 
-                <p>
-                    At MediCare Hospital, we believe quality healthcare
-                    begins with listening, understanding, and caring.
-                    Our goal is to create a welcoming environment where
-                    every patient feels respected and supported.
-                </p>
+                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+                    <path d="m9 12 2 2 4-4"/>
 
-                <ul class="mc-benefits">
-                    <li>
-                        <span class="mc-check">✓</span>
-                        Patient-focused healthcare
-                    </li>
-                    <li>
-                        <span class="mc-check">✓</span>
-                        Dedicated medical professionals
-                    </li>
-                    <li>
-                        <span class="mc-check">✓</span>
-                        A welcoming and comfortable environment
-                    </li>
-                    <li>
-                        <span class="mc-check">✓</span>
-                        Convenient appointment booking
-                    </li>
-                </ul>
-
-                <a href="{% url 'about' %}"
-                   class="mc-btn mc-btn-primary">
-                    Discover Our Hospital →
-                </a>
+                </svg>
 
             </div>
 
-        </section>
+            <h3>Quality Care</h3>
+            <p>Patient-first service</p>
 
-        <!-- Appointment Call to Action -->
-        <section class="mc-appointment">
+        </a>
 
-            <div class="mc-appointment-copy">
-                <h2>Your Health Deserves Attention.</h2>
-                <p>
-                    Take the next step towards better health.
-                    Schedule an appointment with our medical team.
-                </p>
+
+        <!-- FEATURE 3 -->
+
+        <a href="{% url 'contact' %}" class="feature-card">
+
+            <div class="feature-icon-wrapper">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 7v5l3 2"/>
+
+                </svg>
+
             </div>
 
-            <a href="{% url 'booking' %}"
-               class="mc-btn mc-btn-primary">
-                Book Your Visit →
-            </a>
+            <h3>24/7 Support</h3>
+            <p>Here when you need us</p>
 
-        </section>
+        </a>
+
+
+        <!-- FEATURE 4 -->
+
+        <a href="{% url 'about' %}" class="feature-card">
+
+            <div class="feature-icon-wrapper">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
+
+                </svg>
+
+            </div>
+
+            <h3>Better Tomorrow</h3>
+            <p>Care for every life</p>
+
+        </a>
 
     </div>
 

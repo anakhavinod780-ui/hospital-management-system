@@ -1,0 +1,377 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Doctor Dashboard | MediCare{% endblock %}
+
+{% block content %}
+
+<style>
+.doctor-dashboard {
+    min-height: 100vh;
+    padding: 40px 5%;
+    background: #f3f6fb;
+    font-family: Arial, sans-serif;
+    color: #10243e;
+}
+
+.dashboard-heading {
+    background: #092c50;
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+}
+
+.dashboard-heading h1 {
+    margin: 0 0 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px #10243e10;
+}
+
+.stat-card h3 {
+    font-size: 15px;
+    color: #64748b;
+}
+
+.stat-card strong {
+    font-size: 30px;
+    color: #092c50;
+}
+
+.appointment-panel {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    overflow-x: auto;
+}
+
+.appointment-panel h2 {
+    margin-top: 0;
+}
+
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+.appointment-table th,
+.appointment-table td {
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5eaf1;
+}
+
+.appointment-table th {
+    color: #64748b;
+    font-size: 13px;
+    background: #f8fafc;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.status.Pending { color: #d97706; }
+.status.Confirmed { color: #15803d; }
+.status.Completed { color: #2563eb; }
+.status.Cancelled { color: #dc2626; }
+
+.action-btn {
+    border: 0;
+    padding: 9px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+.approve-btn { background: #15803d; }
+.cancel-btn { background: #d97706; }
+.delete-btn { background: #dc2626; }
+
+.action-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+#update-message {
+    margin: 12px 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media(max-width: 800px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="doctor-dashboard">
+
+    <div class="dashboard-heading">
+        <h1>
+            Welcome, Dr. {{ doctor_profile.doctor_name }}!
+        </h1>
+        <p>
+            MEDICARE DOCTOR PORTAL
+        </p>
+        <p>
+            Manage your appointments and patient information.
+        </p>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h3>Total Appointments</h3>
+            <strong id="total-count">{{ total }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Pending</h3>
+            <strong id="pending-count">{{ pending }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Confirmed</h3>
+            <strong id="confirmed-count">{{ confirmed }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <strong id="completed-count">{{ completed }}</strong>
+        </div>
+
+    </div>
+
+    <div class="appointment-panel">
+
+        <h2>Patient Appointment Management</h2>
+
+        <p id="update-message">
+            Checking for new appointments...
+        </p>
+
+        <table class="appointment-table">
+
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Appointment Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="appointment-list">
+                <tr>
+                    <td colspan="6">Loading appointments...</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+const appointmentsApi =
+    "{% url 'doctor_appointments_api' %}";
+
+const approveUrl =
+    "{% url 'approve_appointment' 999999 %}";
+
+const cancelUrl =
+    "{% url 'cancel_appointment' 999999 %}";
+
+const deleteUrl =
+    "{% url 'delete_appointment' 999999 %}";
+
+
+function getCookie(name) {
+    let cookieValue = null;
+
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(
+                    cookie.substring(name.length + 1)
+                );
+                break;
+            }
+        }
+    }
+
+    return cookieValue;
+}
+
+
+function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[char]);
+}
+
+
+async function loadAppointments() {
+    try {
+        const response = await fetch(appointmentsApi, {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        });
+
+        if (!response.ok) {
+            throw new Error('Unable to load appointments.');
+        }
+
+        const data = await response.json();
+
+        document.getElementById('total-count').textContent =
+            data.total;
+
+        document.getElementById('pending-count').textContent =
+            data.pending;
+
+        document.getElementById('confirmed-count').textContent =
+            data.confirmed;
+
+        document.getElementById('completed-count').textContent =
+            data.completed;
+
+        const list = document.getElementById('appointment-list');
+
+        if (data.appointments.length === 0) {
+            list.innerHTML = `
+                <tr>
+                    <td colspan="6">No appointments found.</td>
+                </tr>`;
+        } else {
+            list.innerHTML = data.appointments.map(item => `
+                <tr>
+                    <td>${escapeHTML(item.patient_name)}</td>
+                    <td>${escapeHTML(item.patient_email)}</td>
+                    <td>${escapeHTML(item.patient_phone)}</td>
+                    <td>${escapeHTML(item.booking_ON)}</td>
+                    <td>
+                        <span class="status ${escapeHTML(item.status)}">
+                            ${escapeHTML(item.status)}
+                        </span>
+                    </td>
+                    <td>
+                        ${item.status === 'Pending' ? `
+                            <button class="action-btn approve-btn"
+                                onclick="changeAppointment(
+                                    'approve', ${item.id}
+                                )">
+                                Approve
+                            </button>` : ''}
+
+                        ${item.status !== 'Cancelled' &&
+                          item.status !== 'Completed' ? `
+                            <button class="action-btn cancel-btn"
+                                onclick="changeAppointment(
+                                    'cancel', ${item.id}
+                                )">
+                                Cancel
+                            </button>` : ''}
+
+                        <button class="action-btn delete-btn"
+                            onclick="changeAppointment(
+                                'delete', ${item.id}
+                            )">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('update-message').textContent =
+            'Live updates enabled • Checked just now';
+
+    } catch (error) {
+        document.getElementById('update-message').textContent =
+            'Unable to refresh appointments. Retrying shortly.';
+        console.error(error);
+    }
+}
+
+
+async function changeAppointment(action, id) {
+
+    if (action === 'delete' &&
+        !confirm('Are you sure you want to permanently delete this appointment?')) {
+        return;
+    }
+
+    let url;
+
+    if (action === 'approve') {
+        url = approveUrl.replace('999999', id);
+    } else if (action === 'cancel') {
+        url = cancelUrl.replace('999999', id);
+    } else {
+        url = deleteUrl.replace('999999', id);
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || 'Action failed.');
+        }
+
+        await loadAppointments();
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+
+loadAppointments();
+
+setInterval(loadAppointments, 2000);
+</script>
+
+{% endblock %}

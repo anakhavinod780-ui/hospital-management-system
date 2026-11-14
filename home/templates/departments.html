@@ -1,230 +1,394 @@
-
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Departments | MediCare Hospital{% endblock %}
 
 {% block content %}
 
 <style>
-    .departments-section {
-        min-height: 100vh;
-        padding: 55px 25px;
-        box-sizing: border-box;
-        background:
-            linear-gradient(
-                rgba(8, 35, 55, 0.70),
-                rgba(8, 35, 55, 0.70)
-            ),
-            url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d")
-            center center / cover no-repeat;
-        background-attachment: fixed;
-    }
+    
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-    .departments-heading {
-        text-align: center;
-        max-width: 750px;
-        margin: 0 auto 45px;
-    }
+/* =====================================================
+   DEPARTMENTS PAGE - NAVY BLUE & WHITE
+===================================================== */
+.background {
+    background:
+        linear-gradient(
+            rgba(4, 25, 48, 0.82),
+            rgba(4, 25, 48, 0.90)
+        ),
+        url("{% static 'images/hospital.png' %}");
 
-    .departments-tag {
-        display: inline-block;
-        padding: 8px 18px;
-        border-radius: 30px;
-        background: rgba(255, 255, 255, 0.16);
-        color: #bcecf0;
-        font-size: 13px;
-        font-weight: bold;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        margin-bottom: 15px;
-    }
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
-    .departments-heading h1 {
-        color: #ffffff;
-        font-size: 42px;
-        margin: 0 0 15px;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-    }
+.departments-page {
+    background:
+        linear-gradient(
+            rgba(4, 25, 48, 0.82),
+            rgba(4, 25, 48, 0.90)
+        ),
+        url("{% static 'images/hospital.png' %}");
 
-    .departments-heading p {
-        color: #e2edf4;
-        font-size: 17px;
-        line-height: 1.8;
-        margin: 0;
-    }
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 
-    .heading-line {
-        width: 75px;
-        height: 4px;
-        margin: 20px auto 0;
-        border-radius: 5px;
-        background: #25b8bd;
-    }
+    min-height: 100vh;
+}
 
-    .departments-container {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 25px;
-        max-width: 1200px;
-        margin: 0 auto;
+.departments-page * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.departments-container-wrap {
+    width: min(1150px, 92%);
+    margin: auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.departments-heading {
+    width: 100%;
+    min-height: 48vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 145px 20px 90px;
+    text-align: center;
+    color: var(--white);
+    background: linear-gradient(
+        135deg,
+        rgba(7, 27, 51, 0.35),
+        rgba(18, 59, 96, 0.25)
+    );
+}
+
+.departments-tag {
+    display: inline-block;
+    color: #FFFFFF;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 30px;
+    padding: 9px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 23px;
+    backdrop-filter: blur(10px);
+    animation: fadeUp 0.8s ease-out both;
+}
+
+.departments-heading h1 {
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    animation: fadeUp 0.8s 0.1s ease-out both;
+}
+
+.departments-heading h1 span {
+    color: #DCEBFA;
+}
+
+.departments-heading p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #FFFFFF;
+    max-width: 680px;
+    margin: auto;
+    animation: fadeUp 0.8s 0.2s ease-out both;
+}
+
+/* =====================================================
+   DEPARTMENT GRID
+===================================================== */
+
+
+/* Smaller Department Grid */
+
+.departments-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 1050px;
+    margin: auto;
+    padding-bottom: 55px;
+}
+
+/* Compact Department Card */
+
+.department-card {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #DCE5EF;
+    border-radius: 16px;
+    padding: 20px 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 195px;
+    overflow: hidden;
+    box-shadow: 0 7px 20px rgba(0,0,0,0.13);
+    transition: all 0.3s ease;
+}
+
+.department-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #123B60;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.department-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.2);
+}
+
+.department-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Smaller Department Icons */
+
+.department-icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #071B33, #24577F);
+    color: #FFFFFF;
+    font-size: 25px;
+    box-shadow: 0 5px 13px rgba(7,27,51,0.2);
+    transition: all 0.3s ease;
+}
+
+.department-card:hover .department-icon {
+    transform: scale(1.08) rotate(-4deg);
+    background: #24577F;
+}
+
+/* Smaller Department Text */
+
+.department-card h3 {
+    color: #071B33;
+    font-size: 16px;
+    margin-bottom: 7px;
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.department-card p {
+    color: #52677D;
+    font-size: 11px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.department-footer {
+    max-width: 750px;
+    margin: 0 auto 70px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 15px;
+    line-height: 1.8;
+    padding: 25px 30px;
+    background: rgba(7,27,51,0.75);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.department-footer strong {
+    color: #DCEBFA;
+    font-size: 19px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.no-departments {
+    grid-column: 1 / -1;
+    max-width: 420px;
+    width: 100%;
+    justify-self: center;
+    min-height: 220px;
+}
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+/* Responsive */
+
+@media (max-width: 450px) {
+    .departments-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
     }
 
     .department-card {
-        position: relative;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.97);
-        padding: 32px 26px;
-        border-radius: 16px;
-        text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        border-bottom: 4px solid #13a6ad;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .department-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 16px 35px rgba(0, 0, 0, 0.25);
+        min-height: 165px;
+        padding: 15px 9px;
     }
 
     .department-icon {
-        width: 75px;
-        height: 75px;
-        margin: 0 auto 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: #e3f6f6;
-        font-size: 36px;
-        transition: transform 0.3s ease;
-    }
-
-    .department-card:hover .department-icon {
-        transform: scale(1.08);
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
     }
 
     .department-card h3 {
-        color: #0f3d5e;
-        font-size: 22px;
-        margin: 0 0 14px;
-        line-height: 1.4;
+        font-size: 14px;
     }
 
     .department-card p {
-        color: #64748b;
-        font-size: 15px;
-        line-height: 1.8;
-        margin: 0;
-        overflow-wrap: anywhere;
+        font-size: 10px;
     }
-
-    .department-footer {
-        max-width: 800px;
-        margin: 45px auto 0;
-        text-align: center;
-        color: #e5f0f6;
-        font-size: 15px;
-        line-height: 1.8;
-    }
-
-    .department-footer strong {
-        color: #ffffff;
-    }
-
-    .no-departments {
-        grid-column: 1 / -1;
-        max-width: 500px;
-        width: 100%;
-        justify-self: center;
-    }
-
-    @media (max-width: 900px) {
-        .departments-container {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-    }
-
-    @media (max-width: 600px) {
-        .departments-section {
-            padding: 35px 15px;
-            background-attachment: scroll;
-        }
-
-        .departments-heading h1 {
-            font-size: 31px;
-        }
-
-        .departments-heading p {
-            font-size: 15px;
-        }
-
-        .departments-container {
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        .department-card {
-            padding: 27px 22px;
-        }
-    }
+}
 </style>
 
-<section class="departments-section">
+<div class="departments-page">
 
-    <div class="departments-heading">
+    <!-- Hero Section -->
+    <section class="departments-heading">
         <span class="departments-tag">MediCare Hospital</span>
-
-        <h1>Our Departments</h1>
-
+        
+        <h1>Our <span>Departments</span></h1>
+        
         <p>
-            Comprehensive medical care delivered by experienced
-            professionals using modern healthcare practices.
+            Comprehensive medical care delivered by experienced 
+            professionals using modern healthcare practices. 
             Your health and well-being are our priority.
         </p>
+    </section>
 
-        <div class="heading-line"></div>
-    </div>
+    <!-- Main Content Area -->
+    
+<!-- DEPARTMENTS GRID -->
 
-    <div class="departments-container">
+<div class="departments-grid">
 
-        {% for dept in department %}
+    {% for dept in department %}
 
-        <div class="department-card">
+    <div class="department-card">
 
-            <div class="department-icon">🏥</div>
+        <!-- Department Icon -->
 
-            <h3>{{dept.dept_name}}</h3>
+        <div class="department-icon">
 
-            <p>{{dept.dept_desc}}</p>
+            {% with name=dept.dept_name|lower %}
+
+                {% if 'cardio' in name %}
+                    ❤️
+                {% elif 'neuro' in name %}
+                    🧠
+                {% elif 'ortho' in name %}
+                    🦴
+                {% elif 'pedia' in name %}
+                    👶
+                {% elif 'dental' in name %}
+                    🦷
+                {% elif 'eye' in name or 'ophthal' in name %}
+                    👁️
+                {% elif 'skin' in name or 'derma' in name %}
+                    🧴
+                {% elif 'gyn' in name or 'obstet' in name %}
+                    🤰
+                {% elif 'emergency' in name %}
+                    🚑
+                {% elif 'general' in name %}
+                    🩺
+                {% elif 'surg' in name %}
+                    🏥
+                {% elif 'radio' in name %}
+                    🩻
+                {% elif 'physio' in name %}
+                    💪
+                {% elif 'ent' in name %}
+                    👂
+                {% elif 'urology' in name %}
+                    🩺
+                {% elif 'oncology' in name %}
+                    🎗️
+                {% else %}
+                    🏥
+                {% endif %}
+
+            {% endwith %}
 
         </div>
 
-        {% empty %}
+        <h3>{{ dept.dept_name }}</h3>
 
-        <div class="department-card no-departments">
-            <div class="department-icon">🩺</div>
-
-            <h3>No Departments Available</h3>
-
-            <p>
-                Our departments will appear here once they have
-                been added through the Django admin panel.
-            </p>
-        </div>
-
-        {% endfor %}
+        <p>{{ dept.dept_desc }}</p>
 
     </div>
 
-    <div class="department-footer">
-        <strong>Your health, our commitment.</strong>
-        <br>
-        MediCare Hospital is dedicated to providing
-        compassionate care for every patient.
+    {% empty %}
+
+    <div class="department-card no-departments">
+
+        <div class="department-icon">🩺</div>
+
+        <h3>No Departments Available</h3>
+
+        <p>
+            Our departments will appear here once they have
+            been added through the Django admin panel.
+        </p>
+
     </div>
 
-</section>
+    {% endfor %}
+
+</div>
+
 
 {% endblock %}

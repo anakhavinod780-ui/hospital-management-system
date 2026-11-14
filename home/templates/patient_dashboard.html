@@ -1,275 +1,648 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
 <style>
-.dashboard {
-    padding: 30px;
-    background: #f4f8fb;
-    min-height: 85vh;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+.dashboard-page {
+    --navy: #12345a;
+    --blue: #2563eb;
+    --teal: #0d9488;
+    --light-blue: #eff6ff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 125px 20px 80px;
+
+    background:
+        linear-gradient(135deg, #f1f7ff, #f8fbff, #eef5fc);
 }
 
+.dashboard-page *,
+.dashboard-page *::before,
+.dashboard-page *::after {
+    box-sizing: border-box;
+}
+
+.dashboard-container {
+    width: min(1200px, 96%);
+    margin: auto;
+    animation: fadeUp .7s ease both;
+}
+
+/* WELCOME SECTION */
+
 .welcome {
-    background: #123b65;
-    color: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(120deg, #12345a, #1e5790);
+    border-radius: 22px;
+
+    padding: 42px;
+    margin-bottom: 32px;
+
+    box-shadow: 0 12px 35px rgba(18, 52, 90, .16);
+}
+
+.welcome::after {
+    content: '';
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.07);
+    right: -60px;
+    top: -100px;
+}
+
+.welcome::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+    right: 130px;
+    bottom: -130px;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+}
+
+.welcome-label {
+    color: #93c5fd;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
 }
 
 .welcome h1 {
-    margin: 0 0 10px;
+    color: #fff;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    margin: 0 0 12px;
 }
+
+.welcome h1 span {
+    color: #67e8f9;
+}
+
+.welcome p {
+    color: #dbeafe;
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.7;
+}
+
+/* SECTION HEADINGS */
+
+.section-heading {
+    margin: 35px 0 20px;
+}
+
+.section-heading h2 {
+    font-size: 23px;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 0 0 6px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* STATISTICS */
 
 .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 18px;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .stat-card {
-    background: white;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px #0000000d;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 23px 20px;
+
+    box-shadow: 0 5px 18px rgba(15, 43, 77, .04);
+    transition: .3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(15, 43, 77, .09);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 8px;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
 }
 
 .stat-card h3 {
-    color: #64748b;
-    font-size: 15px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 0;
 }
 
 .stat-card h2 {
-    color: #123b65;
-    font-size: 30px;
-    margin: 10px 0 0;
+    color: var(--navy);
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
 }
 
-.section {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 3px 12px #0000000d;
+/* INDIVIDUAL STAT COLORS */
+
+.stat-total .stat-icon {
+    background: #dbeafe;
+    color: #2563eb;
 }
+
+.stat-pending .stat-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.stat-confirmed .stat-icon {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.stat-completed .stat-icon {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.stat-cancelled .stat-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* TABLE SECTIONS */
+
+.section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 30px;
+
+    box-shadow: 0 6px 25px rgba(15, 43, 77, .045);
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 23px;
+}
+
+.section-title h2 {
+    color: var(--navy);
+    font-size: 21px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.section-title span {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    background: #f1f5f9;
+    padding: 7px 12px;
+    border-radius: 20px;
+}
+
+/* TABLE */
 
 .table-container {
     overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 13px;
 }
 
-table {
+.dashboard-page table {
     width: 100%;
+    min-width: 650px;
     border-collapse: collapse;
-    min-width: 700px;
 }
 
-th {
-    background: #123b65;
-    color: white;
-    padding: 15px;
+.dashboard-page th {
+    background: #f1f6fc;
+    color: #475569;
     text-align: left;
+    padding: 17px 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+
+    border-bottom: 1px solid var(--border);
 }
 
-td {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-    color: #46566b;
+.dashboard-page td {
+    padding: 18px 20px;
+    font-size: 14px;
+    color: #334155;
+    border-bottom: 1px solid #edf2f7;
 }
+
+.dashboard-page tbody tr {
+    transition: background .2s;
+}
+
+.dashboard-page tbody tr:hover {
+    background: #f8fbff;
+}
+
+.dashboard-page tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dashboard-page td[colspan] {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 15px;
+}
+
+/* STATUS BADGES */
 
 .status {
-    padding: 7px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    border: 1px solid transparent;
+    white-space: nowrap;
 }
 
 .Pending {
-    background: #fff0c2;
-    color: #956900;
+    color: #b45309;
+    background: #fef3c7;
+    border-color: #fde68a;
 }
 
 .Confirmed {
-    background: #dceeff;
-    color: #1768a5;
+    color: #1d4ed8;
+    background: #dbeafe;
+    border-color: #bfdbfe;
 }
 
 .Completed {
-    background: #d9f5e5;
-    color: #18834c;
+    color: #047857;
+    background: #d1fae5;
+    border-color: #a7f3d0;
 }
 
 .Cancelled {
-    background: #ffe1e1;
-    color: #c03939;
+    color: #b91c1c;
+    background: #fee2e2;
+    border-color: #fecaca;
 }
 
-.action-btn {
-    display: inline-block;
-    padding: 10px 16px;
-    background: #123b65;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    margin: 5px 5px 5px 0;
+/* ANIMATION */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.action-btn:hover {
-    background: #1b588c;
-    color: white;
+/* RESPONSIVE */
+
+@media(max-width: 1000px) {
+    .stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
-@media(max-width: 600px) {
-    .dashboard {
-        padding: 15px;
+@media(max-width: 650px) {
+    .dashboard-page {
+        padding: 105px 13px 50px;
+    }
+
+    .dashboard-container {
+        width: 100%;
+    }
+
+    .welcome {
+        padding: 30px 23px;
+        border-radius: 17px;
+    }
+
+    .welcome h1 {
+        font-size: 28px;
+    }
+
+    .welcome p {
+        font-size: 14px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 17px 13px;
+    }
+
+    .stat-card h2 {
+        font-size: 27px;
+    }
+
+    .stat-card h3 {
+        font-size: 10px;
+    }
+
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
     }
 
     .section {
+        padding: 19px 13px;
+        border-radius: 16px;
+    }
+
+    .section-title h2 {
+        font-size: 18px;
+    }
+
+    .dashboard-page th,
+    .dashboard-page td {
         padding: 15px;
+    }
+}
+
+@media(max-width: 350px) {
+    .stats {
+        grid-template-columns: 1fr;
     }
 }
 </style>
 
-<div class="dashboard">
 
-    <div class="welcome">
-        <h1>Welcome, {{ profile.full_name }}!</h1>
-        <p>Welcome to your MediCare patient dashboard.</p>
+<div class="dashboard-page">
 
-        <a href="{% url 'my_profile' %}" class="action-btn">
-            My Profile
-        </a>
+    <div class="dashboard-container">
 
-        <a href="{% url 'booking' %}" class="action-btn">
-            Book Appointment
-        </a>
-    </div>
+        <!-- WELCOME BANNER -->
 
-    <div class="stats">
+        <div class="welcome">
 
-        <div class="stat-card">
-            <h3>Total Appointments</h3>
-            <h2>{{ total_appointments }}</h2>
+            <div class="welcome-content">
+
+                <div class="welcome-label">
+                    MEDICARE PATIENT PORTAL
+                </div>
+
+                <h1>
+    Welcome, {{ request.user.get_full_name|default:request.user.username }}!
+</h1>
+
+                <p>
+                    Your health matters to us. Track your appointments
+                    and stay updated on your healthcare journey.
+                </p>
+
+            </div>
+
         </div>
 
-        <div class="stat-card">
-            <h3>Pending</h3>
-            <h2>{{ pending_appointments }}</h2>
+
+        <!-- STATISTICS HEADING -->
+
+        <div class="section-heading">
+            <h2>Appointment Overview</h2>
+            <p>Here is a summary of your appointment activity.</p>
         </div>
 
-        <div class="stat-card">
-            <h3>Confirmed</h3>
-            <h2>{{ confirmed_appointments }}</h2>
+
+        <!-- STATISTICS CARDS -->
+
+        <div class="stats">
+
+            <div class="stat-card stat-total">
+                <div class="stat-top">
+                    <h3>Total</h3>
+                    <div class="stat-icon">▦</div>
+                </div>
+                <h2>{{ total_appointments }}</h2>
+            </div>
+
+            <div class="stat-card stat-pending">
+                <div class="stat-top">
+                    <h3>Pending</h3>
+                    <div class="stat-icon">◷</div>
+                </div>
+                <h2>{{ pending_appointments }}</h2>
+            </div>
+
+            <div class="stat-card stat-confirmed">
+                <div class="stat-top">
+                    <h3>Confirmed</h3>
+                    <div class="stat-icon">✓</div>
+                </div>
+                <h2>{{ confirmed_appointments }}</h2>
+            </div>
+
+            <div class="stat-card stat-completed">
+                <div class="stat-top">
+                    <h3>Completed</h3>
+                    <div class="stat-icon">✚</div>
+                </div>
+                <h2>{{ completed_appointments }}</h2>
+            </div>
+
+            <div class="stat-card stat-cancelled">
+                <div class="stat-top">
+                    <h3>Cancelled</h3>
+                    <div class="stat-icon">✕</div>
+                </div>
+                <h2>{{ cancelled_appointments }}</h2>
+            </div>
+
         </div>
 
-        <div class="stat-card">
-            <h3>Completed</h3>
-            <h2>{{ completed_appointments }}</h2>
+
+        <!-- UPCOMING APPOINTMENTS -->
+
+        <div class="section">
+
+            <div class="section-title">
+                <h2>Upcoming Appointments</h2>
+                <span>UPCOMING</span>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Department</th>
+                            <th>Appointment Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for appointment in upcoming_appointments %}
+
+                        <tr>
+
+                            <td>
+                                Dr. {{ appointment.doctor_name.doctor_name }}
+                            </td>
+
+                            <td>
+                                {{ appointment.doctor_name.dept_name.dept_name }}
+                            </td>
+
+                            <td>
+                                {{ appointment.booking_ON|date:"d M Y" }}
+                            </td>
+
+                            <td>
+                                <span class="status {{ appointment.status }}">
+                                    {{ appointment.status }}
+                                </span>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="4">
+                                No upcoming appointments found.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
 
-        <div class="stat-card">
-            <h3>Cancelled</h3>
-            <h2>{{ cancelled_appointments }}</h2>
-        </div>
 
-    </div>
+        <!-- APPOINTMENT HISTORY -->
 
-    <div class="section">
+        <div class="section">
 
-        <h2>Upcoming Appointments</h2>
+            <div class="section-title">
+                <h2>My Appointment History</h2>
+                <span>ALL RECORDS</span>
+            </div>
 
-        <div class="table-container">
-            <table>
-                <tr>
-                    <th>Doctor</th>
-                    <th>Department</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
+            <div class="table-container">
 
-                {% for appointment in upcoming_appointments %}
+                <table>
 
-                <tr>
-                    <td>Dr. {{ appointment.doctor_name.doctor_name }}</td>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Doctor Name</th>
+                            <th>Department</th>
+                            <th>Appointment Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
-                    <td>
-                        {{ appointment.doctor_name.dept_name.dept_name }}
-                    </td>
+                    <tbody>
 
-                    <td>
-                        {{ appointment.booking_ON|date:"d M Y" }}
-                    </td>
+                        {% for appointment in all_appointments %}
 
-                    <td>
-                        <span class="status {{ appointment.status }}">
-                            {{ appointment.status }}
-                        </span>
-                    </td>
-                </tr>
+                        <tr>
 
-                {% empty %}
+                            <td>
+                                {{ appointment.patient_name }}
+                            </td>
 
-                <tr>
-                    <td colspan="4">No upcoming appointments found.</td>
-                </tr>
+                            <td>
+                                Dr. {{ appointment.doctor_name.doctor_name }}
+                            </td>
 
-                {% endfor %}
+                            <td>
+                                {{ appointment.doctor_name.dept_name.dept_name }}
+                            </td>
 
-            </table>
-        </div>
+                            <td>
+                                {{ appointment.booking_ON|date:"d M Y" }}
+                            </td>
 
-    </div>
+                            <td>
+                                <span class="status {{ appointment.status }}">
+                                    {{ appointment.status }}
+                                </span>
+                            </td>
 
-    <div class="section">
+                        </tr>
 
-        <h2>My Appointment History</h2>
+                        {% empty %}
 
-        <div class="table-container">
-            <table>
+                        <tr>
+                            <td colspan="5">
+                                No appointments found.
+                            </td>
+                        </tr>
 
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Doctor Name</th>
-                    <th>Department</th>
-                    <th>Appointment Date</th>
-                    <th>Status</th>
-                </tr>
+                        {% endfor %}
 
-                {% for appointment in all_appointments %}
+                    </tbody>
 
-                <tr>
-                    <td>{{ appointment.patient_name }}</td>
+                </table>
 
-                    <td>
-                        Dr. {{ appointment.doctor_name.doctor_name }}
-                    </td>
+            </div>
 
-                    <td>
-                        {{ appointment.doctor_name.dept_name.dept_name }}
-                    </td>
-
-                    <td>
-                        {{ appointment.booking_ON|date:"d M Y" }}
-                    </td>
-
-                    <td>
-                        <span class="status {{ appointment.status }}">
-                            {{ appointment.status }}
-                        </span>
-                    </td>
-                </tr>
-
-                {% empty %}
-
-                <tr>
-                    <td colspan="5" style="text-align:center;">
-                        No appointments found.
-                    </td>
-                </tr>
-
-                {% endfor %}
-
-            </table>
         </div>
 
     </div>

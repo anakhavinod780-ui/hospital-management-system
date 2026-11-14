@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Booking, contact, PatientProfile
+from .models import Booking, contact
 
 
 class BookingForm(forms.ModelForm):
@@ -86,18 +86,4 @@ class PatientSignupForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class PatientProfileForm(forms.ModelForm):
-    class Meta:
-        model = PatientProfile
-        fields = ['full_name', 'phone', 'address', 'profile_picture']
-        widgets = {
-            'full_name': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
-            'phone': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
-            'address': forms.Textarea(attrs={
-                'class': 'form-control'
-            }),
-        }
+

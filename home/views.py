@@ -1,18 +1,30 @@
 
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, request
+from django.template import context
 from django.utils import timezone
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.urls import reverse
+from django.contrib.auth.views import LoginView
 
 from .recommendation import recommend_doctors, find_specializations
-from .forms import BookingForm, PatientSignupForm, contactform, PatientProfileForm
-from .models import Booking, PatientProfile, dept, doctor
+from .forms import BookingForm, PatientSignupForm, contactform
+from .models import Booking,dept, doctor
 
 
 # Create your views here.
+from django.shortcuts import redirect
+
+def home_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    return redirect('login')
 def index(request):
-  return render(request,'index.html')
+    return render(request, 'index.html')
 def about(request):
     fruits={
         'fruit':["Mango","Kiwi","Apple","Banana","Grape"]
@@ -66,22 +78,13 @@ def booking(request):
 def signup(request):
 
     if request.method == "POST":
-
         form = PatientSignupForm(request.POST)
 
         if form.is_valid():
-
-            user = form.save()
-
-            PatientProfile.objects.create(
-                user=user,
-                full_name=user.username
-            )
-
+            form.save()
             return redirect('login')
 
     else:
-
         form = PatientSignupForm()
 
     return render(
@@ -89,7 +92,6 @@ def signup(request):
         'signup.html',
         {'form': form}
     )
-
     
 
 def smart_recommendation(request):
@@ -118,13 +120,6 @@ def smart_recommendation(request):
 def patient_dashboard(request):
 
     today = timezone.localdate()
-
-    profile, created = PatientProfile.objects.get_or_create(
-        user=request.user,
-        defaults={
-            'full_name': request.user.username
-        }
-    )
 
     # Get this patient's appointments
     appointments = Booking.objects.filter(
@@ -159,7 +154,6 @@ def patient_dashboard(request):
     all_appointments = appointments.order_by('-booking_ON')
 
     context = {
-        'profile': profile,
         'total_appointments': total_appointments,
         'pending_appointments': pending_appointments,
         'confirmed_appointments': confirmed_appointments,
@@ -175,65 +169,154 @@ def patient_dashboard(request):
         context
     )
 @login_required
-def my_profile(request):
-
-    profile, created = PatientProfile.objects.get_or_create(
-        user=request.user,
-        defaults={
-            'full_name': request.user.username
-        }
+def doctor_dashboard(request):
+    doctor_profile = get_object_or_404(
+        doctor,
+        user=request.user
     )
 
-    return render(
-        request,
-        'my_profile.html',
-        {'profile': profile}
-    )
+    appointments = Booking.objects.filter(
+        doctor_name=doctor_profile
+    ).order_by('-booking_ON')
+
+    context = {
+        'doctor_profile': doctor_profile,
+        'total': appointments.count(),
+        'pending': appointments.filter(status='Pending').count(),
+        'confirmed': appointments.filter(status='Confirmed').count(),
+        'completed': appointments.filter(status='Completed').count(),
+        'cancelled': appointments.filter(status='Cancelled').count(),
+    }
+
+    return render(request, 'doctor_dashboard.html', context)
+
+
 @login_required
-def edit_profile(request):
+def doctor_appointments_api(request):
+    doctor_profile = get_object_or_404(
+        doctor,
+        user=request.user
+    )
 
-    profile, created = PatientProfile.objects.get_or_create(
-        user=request.user,
-        defaults={
-            'full_name': request.user.username
+    appointments = Booking.objects.filter(
+        doctor_name=doctor_profile
+    ).order_by('-booking_ON')
+
+    data = [
+        {
+            'id': appointment.id,
+            'patient_name': appointment.patient_name,
+            'patient_email': appointment.patient_email,
+            'patient_phone': appointment.patient_phone,
+            'booking_ON': appointment.booking_ON.strftime('%d-%m-%Y'),
+            'status': appointment.status,
         }
-    )
+        for appointment in appointments
+    ]
 
-    if request.method == 'POST':
+    return JsonResponse({
+        'appointments': data,
+        'total': appointments.count(),
+        'pending': appointments.filter(status='Pending').count(),
+        'confirmed': appointments.filter(status='Confirmed').count(),
+        'completed': appointments.filter(status='Completed').count(),
+        'cancelled': appointments.filter(status='Cancelled').count(),
+    })
 
-        form = PatientProfileForm(
-            request.POST,
-            request.FILES,
-            instance=profile
-        )
 
-        if form.is_valid():
-
-            form.save()
-
-            return redirect('my_profile')
-
-    else:
-
-        form = PatientProfileForm(instance=profile)
-
-    return render(
-        request,
-        'edit_profile.html',
-        {'form': form}
-    )
 @login_required
-def delete_account(request):
-
-    if request.method == 'POST':
-
-        user = request.user
-
-        user.delete()
-
-        return redirect('login')
-
-    return render(
-        request,
-        'delete_account.html'
+@require_POST
+def approve_appointment(request, appointment_id):
+    doctor_profile = get_object_or_404(
+        doctor,
+        user=request.user
     )
+
+    appointment = get_object_or_404(
+        Booking,
+        id=appointment_id,
+        doctor_name=doctor_profile
+    )
+
+    appointment.status = 'Confirmed'
+    appointment.save(update_fields=['status'])
+
+    return JsonResponse({
+        'success': True,
+        'message': 'Appointment approved successfully.'
+    })
+
+
+@login_required
+@require_POST
+def cancel_appointment(request, appointment_id):
+    doctor_profile = get_object_or_404(
+        doctor,
+        user=request.user
+    )
+
+    appointment = get_object_or_404(
+        Booking,
+        id=appointment_id,
+        doctor_name=doctor_profile
+    )
+
+    appointment.status = 'Cancelled'
+    appointment.save(update_fields=['status'])
+
+    return JsonResponse({
+        'success': True,
+        'message': 'Appointment cancelled successfully.'
+    })
+
+
+@login_required
+@require_POST
+def delete_appointment(request, appointment_id):
+    doctor_profile = get_object_or_404(
+        doctor,
+        user=request.user
+    )
+
+    appointment = get_object_or_404(
+        Booking,
+        id=appointment_id,
+        doctor_name=doctor_profile
+    )
+
+    appointment.delete()
+
+    return JsonResponse({
+        'success': True,
+        'message': 'Appointment deleted successfully.'
+    })
+
+
+@login_required
+def patient_appointments_api(request):
+    appointments = Booking.objects.filter(
+        Q(user=request.user) |
+        Q(user__isnull=True, patient_email=request.user.email)
+    ).distinct().order_by('-booking_ON')
+
+    data = [
+        {
+            'id': appointment.id,
+            'doctor_name': appointment.doctor_name.doctor_name,
+            'booking_ON': appointment.booking_ON.strftime('%d-%m-%Y'),
+            'status': appointment.status,
+        }
+        for appointment in appointments
+    ]
+
+    return JsonResponse({
+        'appointments': data
+    })
+
+class RoleBasedLoginView(LoginView):
+
+    def get_success_url(self):
+        if doctor.objects.filter(user=self.request.user).exists():
+            return reverse('doctor_dashboard')
+
+        return reverse('index')

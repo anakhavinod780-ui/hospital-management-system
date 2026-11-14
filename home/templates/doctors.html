@@ -1,245 +1,726 @@
 
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Our Doctors | MediCare Hospital{% endblock %}
 
 {% block content %}
 
 <style>
-    .doctors-page {
-        background: #f5f9fc;
-        padding-bottom: 60px;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-    .doctors-hero {
-        text-align: center;
-        padding: 60px 20px;
-        background: linear-gradient(120deg, #103b5c, #167b83);
-        color: white;
-    }
+/* =====================================================
+   DOCTORS PAGE - NAVY BLUE & WHITE THEME
+===================================================== */
 
-    .doctors-hero h1 {
-        font-size: 42px;
-        font-weight: 800;
-        margin-bottom: 15px;
-    }
+.doctors-page {
+    --navy: #071B33;
+    --navy-light: #123B60;
+    --white: #FFFFFF;
+    --light-bg: #F5F8FC;
+    --border: #DCE5EF;
+    --muted: #52677D;
 
-    .doctors-hero p {
-        max-width: 650px;
-        margin: auto;
-        line-height: 1.8;
-        color: #e1f2f5;
-    }
+    font-family: 'Outfit', sans-serif;
+    color: var(--navy);
+    position: relative;
+    min-height: 100vh;
 
-    .doctors-container {
-        width: min(1150px, 92%);
-        margin: auto;
-    }
+    background:
+        linear-gradient(
+            rgba(4, 25, 48, 0.80),
+            rgba(4, 25, 48, 0.88)
+        ),
+        url("{% static 'images/hospital.png' %}");
 
-    .doctors-heading {
-        text-align: center;
-        margin: 50px 0 30px;
-    }
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
-    .doctors-heading h2 {
-        color: #103b5c;
-        font-size: 32px;
-        margin-bottom: 10px;
-    }
+.doctors-page * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    .doctors-heading p {
-        color: #64748b;
-    }
+.doctors-page a {
+    text-decoration: none;
+}
 
+.doctors-container {
+    width: min(1250px, 92%);
+    margin: auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.doctors-hero {
+    position: relative;
+    width: 100%;
+    min-height: 55vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 150px 20px 110px;
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        rgba(7, 27, 51, 0.55),
+        rgba(18, 59, 96, 0.35)
+    );
+
+    color: var(--white);
+}
+
+.doctors-hero-content {
+    max-width: 850px;
+    margin: auto;
+    position: relative;
+    z-index: 2;
+
+    animation: fadeUp 0.8s ease-out both;
+}
+
+/* Hero Badge */
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.45);
+
+    color: var(--white);
+
+    padding: 9px 20px;
+    border-radius: 30px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.doctors-hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+
+    margin-bottom: 22px;
+    color: var(--white);
+
+    text-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
+
+.doctors-hero h1 span {
+    color: #DCEBFA;
+}
+
+.doctors-hero p {
+    font-size: 18px;
+    line-height: 1.8;
+
+    color: #FFFFFF;
+
+    max-width: 650px;
+    margin: auto;
+
+    font-weight: 300;
+}
+
+/* =====================================================
+   MAIN CONTENT AREA
+===================================================== */
+
+.doctors-content-wrapper {
+    background: transparent;
+
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+
+    margin-top: -50px;
+    position: relative;
+    z-index: 3;
+
+    padding: 85px 0 110px;
+}
+
+/* =====================================================
+   SECTION HEADING
+===================================================== */
+
+.doctors-heading {
+    text-align: center;
+    margin: 0 0 60px;
+
+    animation: fadeUp 0.8s 0.2s ease-out both;
+}
+
+.doctors-label {
+    color: #DCEBFA;
+
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.doctors-label::before,
+.doctors-label::after {
+    content: '';
+    display: block;
+
+    width: 40px;
+    height: 2px;
+
+    background: #DCEBFA;
+    opacity: 0.7;
+}
+
+.doctors-heading h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    letter-spacing: -1px;
+
+    margin-bottom: 16px;
+
+    color: var(--white);
+    font-weight: 800;
+}
+
+.doctors-heading p {
+    color: #FFFFFF;
+
+    font-size: 16px;
+    line-height: 1.7;
+
+    max-width: 650px;
+    margin: auto;
+}
+
+/* =====================================================
+   DOCTOR GRID
+===================================================== */
+
+/* =====================================================
+   DOCTOR GRID
+===================================================== */
+
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+/* =====================================================
+   ATTRACTIVE COMPACT DOCTOR CARDS
+===================================================== */
+
+.doctor-card {
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #FFFFFF;
+    border: 1px solid #DCE5EF;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.13);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.doctor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #123B60;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.doctor-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.22);
+    border-color: #123B60;
+}
+
+.doctor-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Doctor Image */
+
+.doctor-photo-wrapper {
+    padding: 11px 11px 0;
+}
+.doctor-image {
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.doctor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+.doctor-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    border-radius: 14px;
+}
+
+.doctor-card:hover .doctor-photo img {
+    transform: scale(1.07);
+}
+
+.doctor-no-image {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-size: 50px;
+    color: #123B60;
+    background: #EAF0F7;
+}
+
+/* Doctor Details */
+
+.doctor-details {
+    padding: 14px 14px 16px;
+    text-align: center;
+}
+
+.doctor-department {
+    display: inline-block;
+    background: #EAF2FA;
+    color: #123B60;
+    border-radius: 30px;
+    padding: 5px 11px;
+    margin-bottom: 9px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.doctor-details h3 {
+    color: #071B33;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 5px;
+}
+
+.doctor-specialization {
+    color: #123B60;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.doctor-description {
+    color: #52677D;
+    font-size: 11px;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+/* Booking Button */
+
+.doctor-booking {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 30px;
+    background: #071B33;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+    transition: background 0.3s ease;
+}
+
+.doctor-booking span {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.doctor-booking::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #24577F;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.doctor-booking:hover::before {
+    transform: translateX(0);
+}
+
+.doctor-booking:hover {
+    color: #FFFFFF;
+}
+
+.doctor-booking .arrow {
+    transition: transform 0.3s ease;
+}
+
+.doctor-booking:hover .arrow {
+    transform: translateX(4px);
+}
+
+/* No Doctors Available */
+
+.no-doctors {
+    text-align: center;
+    padding: 60px 25px;
+    background: #FFFFFF;
+    border: 1px solid #DCE5EF;
+    border-radius: 20px;
+    color: #52677D;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.no-doctors h3 {
+    color: #071B33;
+    margin-bottom: 12px;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.no-doctors p {
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+@media (max-width: 1100px) {
     .doctors-grid {
-        display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 25px;
+        max-width: 850px;
+    }
+}
+
+@media (max-width: 850px) {
+    .doctors-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 570px;
+        gap: 20px;
     }
 
     .doctor-card {
-        background: white;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid #e4edf2;
-        box-shadow: 0 5px 20px rgba(16, 59, 92, .07);
-        transition: .3s ease;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 550px) {
+    .doctors-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
     }
 
-    .doctor-card:hover {
-        transform: translateY(-7px);
-        box-shadow: 0 15px 35px rgba(16, 59, 92, .14);
+    .doctor-card {
+        max-width: 270px;
     }
 
     .doctor-photo {
-        height: 270px;
-        background: #e5f0f4;
-        overflow: hidden;
+        height: 175px;
     }
 
-    .doctor-photo img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
+    .doctors-hero {
+        min-height: 45vh;
+        padding: 120px 20px 75px;
+    }
+
+    .doctors-hero h1 {
+        font-size: 38px;
+    }
+
+    .doctors-hero p {
+        font-size: 15px;
+    }
+
+    .doctors-content-wrapper {
+        border-radius: 30px 30px 0 0;
+        margin-top: -30px;
+        padding-top: 55px;
+        padding-bottom: 70px;
+    }
+
+    .doctors-heading {
+        margin-bottom: 40px;
+    }
+
+    .doctors-page {
+        background-attachment: scroll;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 550px) {
+
+    .doctors-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .doctor-photo {
+        height: 320px;
     }
 
     .doctor-details {
-        padding: 25px;
+        padding: 23px;
     }
 
-    .doctor-department {
-        display: inline-block;
-        background: #e0f8f2;
-        color: #087d70;
-        padding: 7px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 15px;
+    .doctors-content-wrapper {
+        border-radius: 30px 30px 0 0;
+
+        margin-top: -30px;
+
+        padding-top: 55px;
+        padding-bottom: 70px;
     }
 
-    .doctor-details h3 {
-        color: #103b5c;
-        font-size: 21px;
-        margin: 0 0 9px;
+    .doctors-hero {
+        min-height: 48vh;
+        padding: 120px 20px 75px;
     }
 
-    .doctor-specialization {
-        color: #159d8c;
-        font-weight: 700;
-        font-size: 14px;
-        margin-bottom: 15px;
+    .doctors-hero h1 {
+        font-size: 38px;
     }
 
-    .doctor-description {
-        color: #64748b;
-        font-size: 14px;
-        line-height: 1.8;
-        min-height: 75px;
-        overflow-wrap: anywhere;
+    .doctors-hero p {
+        font-size: 15px;
     }
 
-    .doctor-booking {
-        display: block;
-        text-align: center;
-        background: #24bfa7;
-        color: #103b5c;
-        text-decoration: none;
-        padding: 13px;
-        border-radius: 8px;
-        margin-top: 20px;
-        font-weight: 700;
-        transition: .3s;
+    .doctors-page {
+        background-attachment: scroll;
     }
 
-    .doctor-booking:hover {
-        background: #103b5c;
-        color: white;
+    .doctors-heading {
+        margin-bottom: 40px;
     }
 
-    .no-doctors {
-        text-align: center;
-        padding: 40px 20px;
-        background: white;
-        border-radius: 12px;
-        color: #64748b;
-    }
+}
 
-    @media (max-width: 850px) {
-        .doctors-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-    }
-
-    @media (max-width: 580px) {
-        .doctors-hero h1 {
-            font-size: 32px;
-        }
-
-        .doctors-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .doctor-photo {
-            height: 300px;
-        }
-    }
 </style>
+
 
 <div class="doctors-page">
 
+    <!-- =================================================
+         HERO SECTION
+    ================================================== -->
+
     <section class="doctors-hero">
-        <h1>Meet Our Doctors</h1>
-        <p>
-            Discover our dedicated medical professionals.
-            Find a specialist and take the next step towards
-            better health with MediCare Hospital.
-        </p>
+
+        <div class="doctors-hero-content">
+
+            <div class="hero-badge">
+                <span>✦</span>
+                Expert Medical Professionals
+            </div>
+
+            <h1>
+                Meet Our <span>Doctors</span>
+            </h1>
+
+            <p>
+                Discover our dedicated medical professionals.
+                Find the right specialist and take the next step
+                towards better health with MediCare Hospital.
+            </p>
+
+        </div>
+
     </section>
 
-    <div class="doctors-container">
 
-        <div class="doctors-heading">
-            <h2>Our Medical Team</h2>
-            <p>Professional care for you and your family.</p>
-        </div>
+    <!-- =================================================
+         DOCTORS MAIN CONTENT
+    ================================================== -->
 
-        {% if doctors %}
-        <div class="doctors-grid">
+    <div class="doctors-content-wrapper">
 
-            {% for doctor in doctors %}
-            <div class="doctor-card">
+        <div class="doctors-container">
 
-                <div class="doctor-photo">
-                    {% if doctor.doctors_image %}
-                    <img
-                        src="{{ doctor.doctors_image.url }}"
-                        alt="{{ doctor.doctor_name }}"
-                    >
-                    {% else %}
-                    <div style="height:100%;display:grid;place-items:center;font-size:65px;">
-                        🩺
-                    </div>
-                    {% endif %}
-                </div>
+            <!-- Section Heading -->
 
-                <div class="doctor-details">
+            <div class="doctors-heading">
 
-                    <span class="doctor-department">
-                        {{doctor.dept_name}}
-                    </span>
+                <span class="doctors-label">
+                    Our Medical Team
+                </span>
 
-                    <h3>{{doctor.doctor_name}}</h3>
+                <h2>
+                    Dedicated to Your Health
+                </h2>
 
-                    <div class="doctor-specialization">
-                        {{doctor.specialization}}
-                    </div>
+                <p>
+                    Professional, compassionate and patient-focused
+                    healthcare from our dedicated medical team.
+                </p>
 
-                    <p class="doctor-description">
-                        {{ doctor.doctor_desc|default:"Our medical team is committed to providing compassionate care." }}
-                    </p>
-
-                    <a href="{% url 'booking' %}"
-                       class="doctor-booking">
-                        Book an Appointment →
-                    </a>
-
-                </div>
             </div>
-            {% endfor %}
+
+
+            <!-- =================================================
+                 DOCTOR DATABASE LOOP
+            ================================================== -->
+
+            {% if doctors %}
+
+            <div class="doctors-grid">
+
+                {% for doctor in doctors %}
+
+                <article class="doctor-card">
+
+                    <!-- Doctor Photo -->
+
+                    <div class="doctor-photo-wrapper">
+
+                        <div class="doctor-photo">
+
+                            {% if doctor.doctors_image %}
+
+                            <img
+                                src="{{ doctor.doctors_image.url }}"
+                                alt="{{ doctor.doctor_name }}"
+                                loading="lazy"
+                            >
+
+                            {% else %}
+
+                            <div class="doctor-no-image">
+                                🩺
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Doctor Information -->
+
+                    <div class="doctor-details">
+
+                        <span class="doctor-department">
+                            {{ doctor.dept_name }}
+                        </span>
+
+
+                        <h3>
+                            {{ doctor.doctor_name }}
+                        </h3>
+
+
+                        <div class="doctor-specialization">
+                            {{ doctor.specialization }}
+                        </div>
+
+
+                        <p class="doctor-description">
+                            {{ doctor.doctor_desc|default:"Our medical team is committed to providing compassionate, patient-centered care." }}
+                        </p>
+
+
+                        <!-- Booking Button -->
+
+                        <a
+                            href="{% url 'booking' %}"
+                            class="doctor-booking"
+                        >
+
+                            <span>
+                                Book Appointment
+                                <span class="arrow">→</span>
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            {% else %}
+
+            <!-- No Doctors Message -->
+
+            <div class="no-doctors">
+
+                <h3>
+                    No Doctors Available Yet
+                </h3>
+
+                <p>
+                    Our medical team information will be available soon.
+                    Please check back later.
+                </p>
+
+            </div>
+
+            {% endif %}
 
         </div>
-
-        {% else %}
-        <div class="no-doctors">
-            <h3>No doctors available yet</h3>
-            <p>Add doctor details and photos through your Django admin panel.</p>
-        </div>
-        {% endif %}
 
     </div>
+
 </div>
 
 {% endblock %}

@@ -1,120 +1,224 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Login | MediCare Hospital{% endblock %}
 
 {% block content %}
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-    body {
-    background:
-        linear-gradient(
-            rgba(10, 35, 55, 0.65),
-            rgba(10, 35, 55, 0.65)
-        ),
-        url("https://images.openai.com/static-rsc-4/1-KN0_mLMu0coLQ0JXdUbk2kx5yzDAT_azd7XjVSAh4EjRf9Ho5Ocx2Y2JBfoHGtJhkNGurtWCLEARTaPQsbQBkTQFiCTUiEp2a9Ibb2DIUM0jzHPpA4KEsBQQl6srMopHNLXPmqqycUxUowdQcFlgu0STKLesqwVF9I5G21dwV1_sAz2GrL6--uEnVxxcBK?purpose=fullsize")
-        center / cover no-repeat fixed;
-    min-height: 100vh;
-}
+.background {
+       background-image:
+    linear-gradient(
+        to bottom,
+        rgba(6, 27, 53, 0.88),
+        rgba(6, 27, 53, 0.78)
+    ),
+    url("{% static 'images/Medicare Hospital Main Entrance at Dusk.png' %}");
 
-.login-container {
-    max-width: 420px;
-    margin: 50px auto;
-    padding: 35px;
-    background: rgba(255, 255, 255, 0.97);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1;
+background-size: cover;
+background-position: center center;
+background-attachment: fixed;
+background-repeat: no-repeat;
 }
- 
+    .login-page-wrapper {
+        --bg-white: #FFFFFF;
+        --bg-navy: #061B35;
+        --navy-light: #0B2D50;
+        --text-main: #0B1F38;
+        --text-muted: #64748B;
+        --accent: #0B2D50;
+        --accent-hover: #061B35;
+
+        font-family: 'Outfit', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 120px 20px 60px;
+        box-sizing: border-box;
+
+        background-image:
+            linear-gradient(
+                to bottom,
+                rgba(6, 27, 53, 0.88),
+                rgba(6, 27, 53, 0.78)
+            ),
+            url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=85');
+
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+    .login-page-wrapper * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* LOGIN CARD */
+    .login-container {
+        width: 100%;
+        max-width: 380px;
+        background: var(--bg-white);
+        padding: 35px 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+        animation: fadeUp 0.6s ease-out both;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
     .login-container h2 {
         text-align: center;
-        color: #0f3d5e;
-        font-size: 28px;
-        margin-bottom: 10px;
+        color: var(--bg-navy);
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        margin-bottom: 6px;
     }
 
     .login-container .subtitle {
         text-align: center;
-        color: #718096;
+        color: var(--text-muted);
         font-size: 14px;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
     }
 
+    /* FORM STYLING */
     .login-container form p {
-        margin-bottom: 18px;
+        margin-bottom: 16px;
+        text-align: left;
     }
 
     .login-container form label {
         display: block;
-        margin-bottom: 7px;
-        color: #263746;
+        margin-bottom: 6px;
+        color: var(--text-main);
         font-weight: 600;
-        font-size: 14px;
+        font-size: 13px;
     }
 
-    .login-container input {
+    .login-container input[type="text"],
+    .login-container input[type="password"],
+    .login-container input[type="email"] {
         width: 100%;
-        padding: 12px 14px;
-        border: 1px solid #ccd8e2;
-        border-radius: 8px;
-        font-size: 15px;
-        box-sizing: border-box;
+        padding: 11px 14px;
+        border: 1px solid #CBD5E1;
+        border-radius: 10px;
+        font-size: 14px;
+        background: #F8FAFC;
+        color: var(--text-main);
+        font-family: inherit;
         outline: none;
-        transition: border-color 0.3s, box-shadow 0.3s;
+        transition: all 0.3s;
     }
 
     .login-container input:focus {
-        border-color: #1677a8;
-        box-shadow: 0 0 0 3px rgba(22, 119, 168, 0.12);
+        border-color: var(--bg-navy);
+        background: #FFFFFF;
+        box-shadow: 0 0 0 3px rgba(6, 27, 53, 0.1);
     }
 
+    /* DJANGO HELP TEXT */
+    .login-container .helptext {
+        display: block;
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+        line-height: 1.4;
+    }
+
+    .login-container ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--text-muted);
+    }
+
+    /* FORM OPTIONS */
     .form-options {
         text-align: right;
-        margin: 12px 0 22px;
+        margin: 8px 0 20px;
     }
 
     .login-container a {
-        color: #1677a8;
+        color: var(--navy-light);
         text-decoration: none;
-        font-size: 14px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: color 0.3s;
     }
 
     .login-container a:hover {
+        color: #000F24;
         text-decoration: underline;
     }
 
-    .login-container button {
+    /* LOGIN BUTTON */
+    .login-container button[type="submit"] {
         width: 100%;
-        padding: 13px;
-        background: #0f3d5e;
-        color: white;
+        padding: 14px;
+        background: var(--bg-navy);
+        color: #FFFFFF;
         border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: bold;
+        border-radius: 50px;
+        font-size: 15px;
+        font-weight: 700;
         cursor: pointer;
-        transition: background 0.3s, transform 0.2s;
+        transition: all 0.3s;
+        box-shadow: 0 8px 20px rgba(6, 27, 53, 0.2);
     }
 
-    .login-container button:hover {
-        background: #17618b;
-        transform: translateY(-1px);
+    .login-container button[type="submit"]:hover {
+        background: #0B2D50;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(6, 27, 53, 0.3);
     }
 
     .login-container .footer-text {
         text-align: center;
         margin-top: 24px;
-        margin-bottom: 0;
-        color: #64748b;
-        font-size: 14px;
+        color: var(--text-muted);
+        font-size: 13px;
     }
 
+    /* FORM ERRORS */
+    .errorlist {
+        color: #DC2626;
+        font-size: 12px;
+        margin-bottom: 6px;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* RESPONSIVE */
     @media (max-width: 480px) {
+        .login-page-wrapper {
+            padding: 100px 15px 40px;
+            background-attachment: scroll;
+        }
+
         .login-container {
-            margin: 25px 12px;
-            padding: 25px 20px;
+            padding: 30px 20px;
+            border-radius: 16px;
         }
 
         .login-container h2 {
@@ -123,24 +227,32 @@
     }
 </style>
 
-<div class="login-container">
-    <h2>Welcome Back</h2>
-    <p class="subtitle">Please enter your details to sign in</p>
+<div class="login-page-wrapper">
+    <div class="login-container">
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <h2>Welcome Back</h2>
 
-        <div class="form-options">
-            <a href="#">Forgot password?</a>
-        </div>
+        <p class="subtitle">
+            Please enter your details to sign in
+        </p>
 
-        <button type="submit">Login</button>
-    </form>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-    <p class="footer-text">
-        New here? <a href="{% url 'signup' %}">Sign up for free</a>
-    </p>
+            <div class="form-options">
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="footer-text">
+            New here?
+            <a href="{% url 'signup' %}">Sign up for free</a>
+        </p>
+
+    </div>
 </div>
 
 {% endblock %}

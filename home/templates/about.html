@@ -1,489 +1,600 @@
 
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About Us | MediCare Hospital{% endblock %}
 
 {% block content %}
 
 <style>
-    .about-page {
-        --navy: #103b5c;
-        --teal: #24bfa7;
-        --muted: #64748b;
-        color: #18384e;
-        overflow: hidden;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-    .about-container {
-        width: min(1150px, 92%);
-        margin: auto;
-    }
+.about-page {
+    --navy: #071B33;
+    --navy-light: #123B60;
+    --white: #FFFFFF;
+    --light-bg: #F5F8FC;
+    --border: #DCE5EF;
+    --muted: #52677D;
 
-    /* Hero */
-    .about-hero {
-        position: relative;
-        min-height: 340px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 65px 20px;
-        color: white;
-        background:
-            linear-gradient(
-                120deg,
-                rgba(9, 42, 68, .94),
-                rgba(16, 91, 112, .78)
-            ),
-            url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=85');
-        background-position: center;
-        background-size: cover;
-    }
+    font-family: 'Outfit', sans-serif;
+    color: var(--navy);
+    position: relative;
 
-    .about-hero-content {
-        max-width: 750px;
-    }
+    background:
+        linear-gradient(
+            rgba(4, 25, 48, 0.78),
+            rgba(4, 25, 48, 0.88)
+        ),
+        url("{% static 'images/hospital.png' %}");
 
-    .about-tag {
-        display: inline-block;
-        color: #9ff5e7;
-        background: rgba(36, 191, 167, .14);
-        border: 1px solid rgba(159, 245, 231, .4);
-        border-radius: 30px;
-        padding: 9px 17px;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-    }
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
-    .about-hero h1 {
-        font-size: clamp(36px, 5vw, 54px);
-        font-weight: 800;
-        margin: 22px 0 15px;
-        line-height: 1.15;
-    }
+.about-page * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    .about-hero h1 span {
-        color: #48dfc5;
-    }
+.about-page a {
+    text-decoration: none;
+}
 
-    .about-hero p {
-        font-size: 16px;
-        line-height: 1.9;
-        color: #e0edf4;
-        max-width: 620px;
-        margin: auto;
-    }
+.about-container {
+    width: min(1200px, 92%);
+    margin: auto;
+    position: relative;
+    z-index: 2;
+    background: transparent;
 
-    /* Introduction */
+}
+
+/* HERO SECTION */
+
+
+
+.about-hero-content {
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 0.8s ease-out both;
+}
+
+.about-tag {
+    display: inline-block;
+    color: var(--white);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+.about-hero h1 {
+    font-size: clamp(40px, 6vw, 68px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+
+.about-hero h1 span {
+    color: #DCEBFA;
+}
+
+.about-hero p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--white);
+    max-width: 600px;
+    margin: auto;
+}
+
+/* INTRO SECTION */
+
+.about-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+    padding: 80px 0;
+}
+
+.about-image-wrapper {
+    position: relative;
+}
+
+.about-image-wrapper img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 20px 45px rgba(7,27,51,0.16);
+    border: 1px solid var(--border);
+}
+
+.about-image-note {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 12px 30px rgba(7,27,51,0.12);
+    max-width: 280px;
+}
+
+.about-image-note strong {
+    display: block;
+    color: var(--navy);
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.about-image-note span {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    display: block;
+}
+
+.about-label {
+    color: var(--navy-light);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.about-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: var(--navy);
+}
+
+.about-intro h2 {
+    font-size: clamp(32px, 4vw, 46px);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+    color: var(--navy);
+}
+
+.about-intro p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.about-check-list {
+    list-style: none;
+    margin: 30px 0;
+    display: grid;
+    gap: 16px;
+}
+
+.about-check-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.about-check {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    background: #EAF0F7;
+    color: var(--navy);
+    border: 1px solid #C8D5E4;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+/* BUTTONS */
+
+.about-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 32px;
+    border-radius: 50px;
+    background: var(--navy);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 10px 25px rgba(7,27,51,0.15);
+}
+
+.about-btn:hover {
+    background: var(--navy-light);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(7,27,51,0.22);
+}
+
+/* MISSION AND VISION */
+
+.about-purpose {
+    padding: 80px 0;
+    position: relative;
+    background: transparent;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.about-section-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+}
+
+.about-section-heading h2 {
+    font-size: clamp(32px, 4vw, 46px);
+    letter-spacing: -1px;
+    margin: 16px 0;
+    color: var(--navy);
+}
+
+.about-section-heading p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.about-purpose-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.about-purpose-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(7,27,51,0.05);
+}
+
+.about-purpose-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--navy);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.about-purpose-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(7,27,51,0.12);
+    border-color: var(--navy-light);
+}
+
+.about-purpose-card:hover::before {
+    opacity: 1;
+}
+
+.about-purpose-icon {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: #EAF0F7;
+    border: 1px solid #D5E0EC;
+    font-size: 28px;
+    margin-bottom: 24px;
+    color: var(--navy);
+}
+
+.about-purpose-card h3 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: var(--navy);
+}
+
+.about-purpose-card p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+/* CORE VALUES */
+
+.about-values {
+    padding: 80px 0;
+    background: transparent;
+}
+
+.about-values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.about-value-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.3s;
+    box-shadow: 0 8px 25px rgba(7,27,51,0.05);
+}
+
+.about-value-card:hover {
+    background: var(--light-bg);
+    transform: translateY(-5px);
+    border-color: var(--navy-light);
+    box-shadow: 0 15px 30px rgba(7,27,51,0.10);
+}
+
+.about-value-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #EAF0F7;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.about-value-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--navy);
+}
+
+.about-value-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* BOTTOM CTA */
+
+.about-cta-wrapper {
+    padding-bottom: 100px;
+}
+
+.about-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px;
+    border-radius: 32px;
+    background: var(--navy);
+    border: 1px solid var(--navy-light);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(7,27,51,0.18);
+}
+
+.about-cta h2 {
+    font-size: clamp(28px, 3vw, 40px);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    color: var(--white);
+}
+
+.about-cta p {
+    color: #DCE5EF;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.about-cta .about-btn {
+    background: var(--white);
+    color: var(--navy);
+    flex-shrink: 0;
+}
+
+.about-cta .about-btn:hover {
+    background: #EAF0F7;
+    color: var(--navy);
+}
+
+/* ANIMATIONS AND RESPONSIVE */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 950px) {
     .about-intro {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        align-items: center;
-        padding: 80px 0;
-    }
-
-    .about-image {
-        position: relative;
-    }
-
-    .about-image img {
-        display: block;
-        width: 100%;
-        height: 410px;
-        object-fit: cover;
-        border-radius: 18px;
-        box-shadow: 0 14px 40px rgba(16, 59, 92, .13);
-    }
-
-    .about-image-note {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        right: 20px;
-        padding: 17px 20px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, .96);
-        box-shadow: 0 8px 25px rgba(16, 59, 92, .12);
-    }
-
-    .about-image-note strong {
-        display: block;
-        color: var(--navy);
-        font-size: 17px;
-        margin-bottom: 5px;
-    }
-
-    .about-image-note span {
-        color: var(--muted);
-        font-size: 13px;
-    }
-
-    .about-label {
-        color: #079c8a;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .about-intro h2 {
-        color: var(--navy);
-        font-size: clamp(29px, 3.5vw, 40px);
-        line-height: 1.25;
-        margin: 15px 0 20px;
-    }
-
-    .about-intro p {
-        color: var(--muted);
-        line-height: 1.9;
-        font-size: 14px;
-        margin-bottom: 17px;
-    }
-
-    .about-check-list {
-        list-style: none;
-        padding: 0;
-        margin: 24px 0 28px;
-        display: grid;
-        gap: 14px;
-    }
-
-    .about-check-list li {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: #304b60;
-        font-size: 14px;
-    }
-
-    .about-check {
-        display: grid;
-        place-items: center;
-        flex-shrink: 0;
-        width: 25px;
-        height: 25px;
-        background: #e1f8f2;
-        color: #078b78;
-        border-radius: 50%;
-        font-weight: bold;
-    }
-
-    .about-btn {
-        display: inline-block;
-        padding: 14px 23px;
-        border-radius: 8px;
-        background: var(--teal);
-        color: #073b45;
-        font-size: 14px;
-        font-weight: 700;
-        text-decoration: none;
-        transition: .25s;
-    }
-
-    .about-btn:hover {
-        background: var(--navy);
-        color: white;
-        transform: translateY(-2px);
-    }
-
-    /* Mission and vision */
-    .about-purpose {
-        background: #f3f9fc;
-        padding: 75px 0;
-    }
-
-    .about-section-heading {
-        text-align: center;
-        max-width: 650px;
-        margin: 0 auto 38px;
-    }
-
-    .about-section-heading h2 {
-        font-size: clamp(28px, 3vw, 38px);
-        color: var(--navy);
-        margin: 12px 0;
-    }
-
-    .about-section-heading p {
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.8;
-    }
-
-    .about-purpose-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-
-    .about-purpose-card {
-        background: white;
-        border: 1px solid #e5eef3;
-        border-radius: 16px;
-        padding: 32px;
-        box-shadow: 0 8px 28px rgba(16, 59, 92, .05);
-        transition: .25s;
-    }
-
-    .about-purpose-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 15px 35px rgba(16, 59, 92, .1);
-    }
-
-    .about-purpose-icon {
-        width: 60px;
-        height: 60px;
-        display: grid;
-        place-items: center;
-        border-radius: 15px;
-        background: #e1f8f2;
-        font-size: 29px;
-        margin-bottom: 20px;
-    }
-
-    .about-purpose-card:nth-child(2) .about-purpose-icon {
-        background: #eaf1ff;
-    }
-
-    .about-purpose-card h3 {
-        color: var(--navy);
-        font-size: 22px;
-        margin: 0 0 13px;
-    }
-
-    .about-purpose-card p {
-        color: var(--muted);
-        line-height: 1.9;
-        font-size: 14px;
-        margin: 0;
-    }
-
-    /* Values */
-    .about-values {
-        padding: 80px 0;
+        grid-template-columns: 1fr;
+        gap: 50px;
     }
 
     .about-values-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 22px;
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .about-value-card {
-        padding: 28px 22px;
-        text-align: center;
-        border: 1px solid #e6eef3;
-        border-radius: 15px;
-        background: white;
-        transition: .25s;
-    }
-
-    .about-value-card:hover {
-        border-color: #9ce8da;
-        box-shadow: 0 12px 30px rgba(16, 59, 92, .09);
-        transform: translateY(-5px);
-    }
-
-    .about-value-icon {
-        font-size: 36px;
-        margin-bottom: 15px;
-    }
-
-    .about-value-card h3 {
-        color: var(--navy);
-        margin: 0 0 12px;
-        font-size: 18px;
-    }
-
-    .about-value-card p {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.8;
-        margin: 0;
-    }
-
-    /* Bottom call to action */
     .about-cta {
-        display: flex;
+        padding: 40px;
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        min-height: 50vh;
+        padding: 120px 20px 60px;
+    }
+
+    .about-purpose-grid,
+    .about-values-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-image-note {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        margin-top: 20px;
+        max-width: 100%;
+    }
+
+    .about-cta {
         align-items: center;
-        justify-content: space-between;
-        gap: 25px;
-        padding: 42px;
-        margin-bottom: 70px;
-        border-radius: 18px;
-        color: white;
-        background: linear-gradient(120deg, #103b5c, #126b78);
     }
+}
 
-    .about-cta h2 {
-        font-size: clamp(24px, 3vw, 33px);
-        margin: 0 0 12px;
-    }
+/* WHITE TEXT ON HOSPITAL BACKGROUND */
 
-    .about-cta p {
-        color: #dcecf2;
-        font-size: 14px;
-        line-height: 1.8;
-        margin: 0;
-    }
+.about-intro h2,
+.about-intro p,
+.about-check-list li,
+.about-label,
+.about-section-heading h2,
+.about-section-heading p,
+.about-purpose-card h3,
+.about-purpose-card p,
+.about-value-card h3,
+.about-value-card p {
+    color: #FFFFFF;
+}
 
-    .about-cta .about-btn {
-        flex-shrink: 0;
-    }
+.about-label::before {
+    background: #FFFFFF;
+}
 
-    /* Responsive */
-    @media (max-width: 800px) {
-        .about-intro {
-            gap: 35px;
-        }
+/* Keep information cards white */
 
-        .about-values-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
+.about-image-note,
+.about-purpose-card,
+.about-value-card {
+    background: #FFFFFF;
+}
 
-    @media (max-width: 600px) {
-        .about-hero {
-            min-height: 300px;
-            padding: 45px 20px;
-        }
+.about-image-note strong,
+.about-purpose-card h3,
+.about-value-card h3 {
+    color: #071B33;
+}
 
-        .about-hero p {
-            font-size: 14px;
-        }
-
-        .about-intro {
-            grid-template-columns: 1fr;
-            padding: 55px 0;
-            gap: 35px;
-        }
-
-        .about-image img {
-            height: 300px;
-        }
-
-        .about-purpose {
-            padding: 55px 0;
-        }
-
-        .about-purpose-grid,
-        .about-values-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .about-purpose-card {
-            padding: 25px;
-        }
-
-        .about-values {
-            padding: 55px 0;
-        }
-
-        .about-cta {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 30px 24px;
-            margin-bottom: 45px;
-        }
-    }
+.about-image-note span,
+.about-purpose-card p,
+.about-value-card p {
+    color: #52677D;
+}
 </style>
 
 <div class="about-page">
 
-    <!-- Hero Banner -->
+    <!-- HERO SECTION -->
     <section class="about-hero">
         <div class="about-hero-content">
             <span class="about-tag">Welcome to MediCare</span>
-
             <h1>About <span>Our Hospital</span></h1>
-
             <p>
                 Dedicated to your health, committed to your care.
-                Discover our approach to compassionate,
-                patient-focused healthcare.
+                Discover our approach to compassionate, patient-focused healthcare.
             </p>
         </div>
     </section>
 
+    <!-- HOSPITAL INTRODUCTION -->
     <div class="about-container">
-
-        <!-- Hospital Introduction -->
         <section class="about-intro">
 
-            <div class="about-image">
-                <img
-                    src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1000&q=85"
-                    alt="Modern hospital interior"
-                    loading="lazy"
-                >
-
+            <div class="about-image-wrapper">
+              <img
+    src="{% static 'images/Medicare Hospital Main Entrance at Dusk.png' %}"
+    alt="Medicare Hospital Main Entrance"
+>
                 <div class="about-image-note">
-                    <strong>Your Well-being Comes First</strong>
+                    <strong>Your Well-being First</strong>
                     <span>Care, comfort, and compassion in every interaction.</span>
                 </div>
             </div>
 
             <div class="about-intro-copy">
-
                 <span class="about-label">Who We Are</span>
 
                 <h2>Making Healthcare More Caring and Accessible</h2>
 
                 <p>
-                    MediCare Hospital is committed to providing
-                    quality healthcare in a welcoming and supportive
-                    environment. We believe every patient deserves
-                    to be treated with dignity, respect, and kindness.
+                    MediCare Hospital is committed to providing quality healthcare
+                    in a welcoming and supportive environment. We believe every
+                    patient deserves to be treated with dignity, respect, and kindness.
                 </p>
 
                 <p>
-                    Our approach combines patient-focused service,
-                    professional medical care, and a commitment
-                    to helping individuals and families make
-                    informed decisions about their health.
+                    Our approach combines patient-focused service, professional
+                    medical care, and a commitment to helping individuals and
+                    families make informed decisions about their health.
                 </p>
 
                 <ul class="about-check-list">
-                    <li>
-                        <span class="about-check">✓</span>
-                        Compassionate patient care
-                    </li>
-                    <li>
-                        <span class="about-check">✓</span>
-                        Commitment to quality and safety
-                    </li>
-                    <li>
-                        <span class="about-check">✓</span>
-                        Respectful and supportive service
-                    </li>
-                    <li>
-                        <span class="about-check">✓</span>
-                        Focus on continuous improvement
-                    </li>
+                    <li><span class="about-check">✓</span> Compassionate patient care</li>
+                    <li><span class="about-check">✓</span> Commitment to quality and safety</li>
+                    <li><span class="about-check">✓</span> Respectful and supportive service</li>
+                    <li><span class="about-check">✓</span> Focus on continuous improvement</li>
                 </ul>
 
                 <a href="{% url 'doctors' %}" class="about-btn">
                     Meet Our Doctors →
                 </a>
-
             </div>
-        </section>
 
+        </section>
     </div>
 
-    <!-- Mission and Vision -->
+    <!-- MISSION AND VISION -->
     <section class="about-purpose">
         <div class="about-container">
 
             <div class="about-section-heading">
-                <span class="about-label">Our Purpose</span>
-                <h2>Our Mission &amp; Vision</h2>
+                <span class="about-label" style="justify-content: center;">
+                    Our Purpose
+                </span>
+
+                <h2>Mission &amp; Vision</h2>
+
                 <p>
-                    Our purpose guides how we care for patients,
-                    support families, and work towards better health.
+                    Our purpose guides how we care for patients, support families,
+                    and work towards better health.
                 </p>
             </div>
 
@@ -493,11 +604,10 @@
                     <div class="about-purpose-icon">🎯</div>
                     <h3>Our Mission</h3>
                     <p>
-                        To provide compassionate, patient-centered
-                        healthcare while promoting safety, respect,
-                        and responsible medical practices. We aim
-                        to make every patient feel heard, valued,
-                        and supported throughout their care journey.
+                        To provide compassionate, patient-centered healthcare
+                        while promoting safety, respect, and responsible medical
+                        practices. We aim to make every patient feel heard,
+                        valued, and supported throughout their care journey.
                     </p>
                 </article>
 
@@ -505,11 +615,10 @@
                     <div class="about-purpose-icon">🌟</div>
                     <h3>Our Vision</h3>
                     <p>
-                        To build a trusted healthcare environment
-                        recognized for compassion, quality service,
-                        continuous learning, and a commitment to
-                        improving the health and well-being of
-                        the community we serve.
+                        To build a trusted healthcare environment recognized
+                        for compassion, quality service, continuous learning,
+                        and a commitment to improving the health and well-being
+                        of the community we serve.
                     </p>
                 </article>
 
@@ -517,16 +626,20 @@
         </div>
     </section>
 
-    <!-- Core Values -->
+    <!-- CORE VALUES -->
     <section class="about-values">
         <div class="about-container">
 
             <div class="about-section-heading">
-                <span class="about-label">What Guides Us</span>
+                <span class="about-label" style="justify-content: center;">
+                    What Guides Us
+                </span>
+
                 <h2>Our Core Values</h2>
+
                 <p>
-                    The principles that shape our commitment
-                    to every patient and family.
+                    The principles that shape our commitment to every patient
+                    and family.
                 </p>
             </div>
 
@@ -535,63 +648,45 @@
                 <article class="about-value-card">
                     <div class="about-value-icon">💙</div>
                     <h3>Compassion</h3>
-                    <p>
-                        We approach every patient with empathy,
-                        kindness, and understanding.
-                    </p>
+                    <p>We approach every patient with empathy, kindness, and understanding.</p>
                 </article>
 
                 <article class="about-value-card">
                     <div class="about-value-icon">🛡️</div>
                     <h3>Trust &amp; Integrity</h3>
-                    <p>
-                        We value honesty, respect, and clear
-                        communication in patient care.
-                    </p>
+                    <p>We value honesty, respect, and clear communication in patient care.</p>
                 </article>
 
                 <article class="about-value-card">
                     <div class="about-value-icon">⭐</div>
                     <h3>Quality</h3>
-                    <p>
-                        We strive for high standards and
-                        continuous improvement in our services.
-                    </p>
+                    <p>We strive for high standards and continuous improvement in our services.</p>
                 </article>
 
                 <article class="about-value-card">
                     <div class="about-value-icon">🤝</div>
                     <h3>Teamwork</h3>
-                    <p>
-                        We believe collaboration helps create
-                        a more supportive care experience.
-                    </p>
+                    <p>We believe collaboration helps create a more supportive care experience.</p>
                 </article>
 
                 <article class="about-value-card">
                     <div class="about-value-icon">🌱</div>
                     <h3>Growth</h3>
-                    <p>
-                        We value learning and adapting to
-                        improve the care we provide.
-                    </p>
+                    <p>We value learning and adapting to improve the care we provide.</p>
                 </article>
 
                 <article class="about-value-card">
                     <div class="about-value-icon">👨‍👩‍👧</div>
                     <h3>Patient First</h3>
-                    <p>
-                        We respect each person's needs,
-                        preferences, and dignity.
-                    </p>
+                    <p>We respect each person's needs, preferences, and dignity.</p>
                 </article>
 
             </div>
         </div>
     </section>
 
-    <!-- Appointment Call to Action -->
-    <div class="about-container">
+    <!-- BOTTOM CTA -->
+    <div class="about-container about-cta-wrapper">
         <section class="about-cta">
 
             <div>
